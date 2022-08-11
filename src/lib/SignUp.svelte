@@ -1,6 +1,6 @@
 <script lang="ts">
 	import logoDark from '$lib/../assets/logo-dark.png';
-	import { supabaseClient } from './db';
+	import { supabaseClient } from './supabase';
 
 	let email: string;
 	let password: string;

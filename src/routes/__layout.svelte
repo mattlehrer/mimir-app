@@ -1,13 +1,11 @@
 <script lang="ts">
 	import { session } from '$app/stores';
-	import { supabaseClient } from '$lib/db';
 	import Footer from '$lib/Footer.svelte';
 	import Nav from '$lib/Nav.svelte';
+	import { supabaseClient } from '$lib/supabase';
 	import { SupaAuthHelper } from '@supabase/auth-helpers-svelte';
 
 	import '../app.css';
-
-	console.log('layout', JSON.stringify($session, null, 2));
 </script>
 
 <Nav />

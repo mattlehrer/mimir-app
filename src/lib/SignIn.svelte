@@ -1,20 +1,18 @@
 <script lang="ts">
-import { goto } from '$app/navigation';
+	import { goto } from '$app/navigation';
 
 	import logoDark from '$lib/../assets/logo-dark.png';
-	import { supabaseClient } from './db';
+	import { supabaseClient } from './supabase';
 
 	let email: string;
 	let password: string;
 
 	async function signin() {
 		if (!supabaseClient) throw new Error('supabaseClient is not defined');
-		const { user, error } = await supabaseClient.auth.signIn(
-			{
-				email,
-				password,
-			},
-		);
+		const { user, error } = await supabaseClient.auth.signIn({
+			email,
+			password,
+		});
 		if (error) throw error;
 		await goto('/');
 	}
