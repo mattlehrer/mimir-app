@@ -1,2 +1,8 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+	import Auth from '$lib/Auth.svelte';
+	import '../app.css';
+</script>
+
+<div class="mt-16 min-h-full w-full">
+	<Auth />
+</div>

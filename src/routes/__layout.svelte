@@ -6,17 +6,19 @@
 	import { SupaAuthHelper } from '@supabase/auth-helpers-svelte';
 
 	import '../app.css';
+
+	console.log('layout', JSON.stringify($session, null, 2));
 </script>
 
 <Nav />
 
-<main>
+<main class="min-h-full">
 	{#if supabaseClient}
-	<SupaAuthHelper {supabaseClient} {session}>
-		<slot />
-	</SupaAuthHelper>
+		<SupaAuthHelper {supabaseClient} {session}>
+			<slot />
+		</SupaAuthHelper>
 	{:else}
-	<slot />
+		<slot />
 	{/if}
 </main>
 
