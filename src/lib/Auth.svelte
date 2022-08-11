@@ -7,7 +7,7 @@
 		if (!supabaseClient) return;
 		try {
 			loading = true;
-			const { user, session, error } = await supabaseClient.auth.signIn(
+			const { error } = await supabaseClient.auth.signIn(
 				{
 					provider: 'google',
 				},
