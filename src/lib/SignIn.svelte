@@ -1,4 +1,6 @@
 <script lang="ts">
+import { goto } from '$app/navigation';
+
 	import logoDark from '$lib/../assets/logo-dark.png';
 	import { supabaseClient } from './db';
 
@@ -7,12 +9,14 @@
 
 	async function signin() {
 		if (!supabaseClient) throw new Error('supabaseClient is not defined');
-		const { user, error } = await supabaseClient.auth.signIn({
-			email,
-			password,
-		});
+		const { user, error } = await supabaseClient.auth.signIn(
+			{
+				email,
+				password,
+			},
+		);
 		if (error) throw error;
-		console.log({ user });
+		await goto('/');
 	}
 </script>
 
@@ -58,7 +62,7 @@
 			<div>
 				<button
 					type="submit"
-					on:click={signin}
+					on:click|preventDefault={signin}
 					class="group relative flex w-full justify-center rounded-md border border-transparent bg-[#C5A87A] px-4 py-2 text-sm font-medium text-[#1C3E4F] shadow-sm hover:bg-[#d8c5a6] focus:outline-none focus:ring-2 focus:ring-[#e8dcca] focus:ring-offset-2"
 				>
 					<span class="absolute inset-y-0 left-0 flex items-center pl-3">
