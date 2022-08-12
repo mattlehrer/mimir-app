@@ -1,5 +1,7 @@
+import { session } from '$app/stores';
 import { oauth2Client } from '$lib/google';
 import { supabaseClient } from '$lib/supabase';
+import { supabaseServer } from '$lib/supabaseServer';
 import type { RequestHandler } from '@sveltejs/kit';
 import cookie from 'cookie';
 
@@ -28,7 +30,7 @@ export const GET: RequestHandler = async function ({ request, url }) {
 			};
 		}
 	}
-	console.log(JSON.stringify(tokens, null, 2));
+	// console.log(JSON.stringify(tokens, null, 2));
 	if (!supabaseClient)
 		return {
 			status: 500,
@@ -50,6 +52,17 @@ export const GET: RequestHandler = async function ({ request, url }) {
 		{ onConflict: 'user' },
 	);
 	console.log(JSON.stringify(data, null, 2));
+	if (!supabaseServer)
+		return {
+			status: 500,
+			body: 'Missing supabaseServer',
+		};
+	console.log('Adding metadata to user');
+	const { error } = await supabaseServer.auth.api.updateUserById(uid, {
+		app_metadata: { hasGoogleOauth: true },
+	});
+	if (error) console.error(error);
+	else session.update((s) => ({ ...s, user: { ...s.user, hasGoogleOauth: true } }));
 	// oauth2Client.setCredentials(tokens);
 	// google.analytics.v3.
 

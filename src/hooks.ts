@@ -10,7 +10,6 @@ export const handle: Handle = sequence(
 
 export const getSession: GetSession = async (event) => {
 	const { user, accessToken, error } = event.locals;
-	// console.log('getSession', { user, accessToken, error });
 	return {
 		user,
 		accessToken,
