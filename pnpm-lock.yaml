@@ -4,6 +4,7 @@ specifiers:
   '@playwright/test': ^1.25.0
   '@supabase/auth-helpers-svelte': ^0.4.5
   '@supabase/auth-helpers-sveltekit': ^0.6.9
+  '@supabase/supabase-js': ^1.35.6
   '@sveltejs/adapter-auto': next
   '@sveltejs/kit': next
   '@tailwindcss/forms': ^0.5.2
@@ -31,6 +32,7 @@ specifiers:
 dependencies:
   '@supabase/auth-helpers-svelte': 0.4.5
   '@supabase/auth-helpers-sveltekit': 0.6.9
+  '@supabase/supabase-js': 1.35.6
   cookie: 0.5.0
   googleapis: 105.0.0
 

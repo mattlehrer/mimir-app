@@ -3,7 +3,7 @@
 // for information about these interfaces
 declare namespace App {
 	interface UserSession {
-		user: import('@supabase/supabase-js').User;
+		user: import('@supabase/supabase-js').User & { hasGoogleOauth: boolean };
 		accessToken?: string;
 	}
 	interface Locals extends UserSession {

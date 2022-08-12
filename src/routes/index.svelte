@@ -11,6 +11,7 @@
 		<div class="w-full text-center text-2xl">
 			Hi, {$session.user.email}
 		</div>
+		{#if !$session.user.app_metadata.hasGoogleOauth}
 		<div class="mt-8 flex w-full justify-center">
 			<a
 				href="/api/oauth/google"
@@ -18,5 +19,6 @@
 				>Connect to Google Analytics</a
 			>
 		</div>
+		{/if}
 	{/if}
 </div>
