@@ -6,6 +6,11 @@ export const handle: Handle = sequence(
 	...handleAuth({
 		// logout: { returnTo: '/auth/signin' },
 	}),
+	// leaving in case of future logging needs
+	// async ({ event, resolve }) => {
+	// 	console.log(JSON.stringify(event.locals, null, 2));
+	// 	return await resolve(event);
+	// },
 );
 
 export const getSession: GetSession = async (event) => {
