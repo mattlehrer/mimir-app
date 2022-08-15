@@ -42,6 +42,7 @@
 		"@supabase/auth-helpers-sveltekit": "^0.6.10",
 		"@supabase/supabase-js": "^1.35.6",
 		"cookie": "^0.5.0",
-		"googleapis": "^105.0.0"
+		"googleapis": "^105.0.0",
+		"jwt-decode": "^3.1.2"
 	}
 }
