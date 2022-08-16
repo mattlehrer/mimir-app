@@ -8,7 +8,6 @@ import { google } from 'googleapis';
 
 export const GET: RequestHandler = async ({ locals }) => {
 	if (!supabaseClient) return new Response('Missing supabaseClient', { status: 500 });
-	// throw new Error("@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292701)");
 	return new Response(
 		undefined,
 		await withApiAuth({ user: locals.user }, async () => {
@@ -52,13 +51,4 @@ export const GET: RequestHandler = async ({ locals }) => {
 			return {};
 		}),
 	);
-	// const uid = user?.id;
-	// if (!uid) return {};
-
-	// const accessToken = await supabaseClient
-	// 	?.from('google_tokens')
-	// 	.select('access_token')
-	// 	.eq('user', uid);
-	// console.log('accessToken: ', accessToken);
-	return new Response(undefined);
 };
