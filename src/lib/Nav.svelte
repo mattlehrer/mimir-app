@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { session } from '$app/stores';
-	import logoWhite from '$lib/../assets/logo-white.png';
+	import logoWhite from 'assets/logo-white.png';
 </script>
 
 <nav class="bg-primary-600">

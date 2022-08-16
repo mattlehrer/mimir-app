@@ -1,5 +1,6 @@
 <script lang="ts">
-	import logoDark from '$lib/../assets/logo-dark.png';
+	
+	import logoDark from 'assets/logo-dark.png';
 	import { supabaseClient } from './supabase';
 
 	let email: string;
@@ -14,7 +15,7 @@
 				password,
 			},
 			{ redirectTo: '/' },
-		);
+ 		);
 		// TODO: handle errors
 		if (error) throw error;
 		console.log({ user });
