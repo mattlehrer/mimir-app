@@ -16,6 +16,7 @@ An automated to do list for your digital marketing from your web analytics.
 - [ ] Create report view
 - [ ] Expose and store GA viewids
 - [ ] Setup RLS on Supabase
+- [ ] Use progressive enhancement on signup/signin forms (wait for sveltekit form changes)
 
 ## Developing
 
