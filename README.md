@@ -8,8 +8,8 @@ An automated to do list for your digital marketing from your web analytics.
 - [x] Setup oauth with Google
 - [x] Allow linking multiple Google Analytics accounts
 - [x] Update SvelteKit to directory-based router (408+)
-- [ ] Handle errors on sign up
-- [ ] Handle errors on sign in
+- [x] Handle errors on sign up
+- [x] Handle errors on sign in
 - [ ] Create profile page
 - [ ] Make a list of metrics and dimensions to include
 - [ ] Create report generator page

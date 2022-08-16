@@ -1,24 +1,44 @@
 <script lang="ts">
-	
+	import { toastStore } from '@brainandbones/skeleton';
+
 	import logoDark from 'assets/logo-dark.png';
 	import { supabaseClient } from './supabase';
 
 	let email: string;
 	let password: string;
 
+	function addToast({ message }: { message: string }) {
+		toastStore.trigger({
+			message,
+			autohide: true,
+			timeout: 10000,
+		});
+	}
+
 	async function signup() {
-		console.log('signup', { email, password });
-		if (!supabaseClient) throw new Error('supabaseClient is not defined');
-		const { user, error } = await supabaseClient.auth.signUp(
-			{
-				email,
-				password,
-			},
-			{ redirectTo: '/' },
- 		);
-		// TODO: handle errors
-		if (error) throw error;
-		console.log({ user });
+		let error;
+		try {
+			if (!supabaseClient) throw new Error('supabaseClient is not defined');
+			({ error } = await supabaseClient.auth.signUp(
+				{
+					email,
+					password,
+				},
+				{ redirectTo: '/' },
+			));
+		} catch (error) {
+			if (error instanceof Error) {
+				addToast({ message: error.message });
+			} else {
+				addToast({ message: `Something went wrong! ${JSON.stringify(error, null, 2)}` });
+			}
+		} finally {
+			if (error instanceof Object && Object.hasOwn(error, 'message')) {
+				addToast({ message: error.message });
+			} else {
+				addToast({ message: `Something went wrong! ${JSON.stringify(error, null, 2)}` });
+			}
+		}
 	}
 </script>
 
