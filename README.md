@@ -7,9 +7,9 @@ An automated to do list for your digital marketing from your web analytics.
 - [x] Setup auth with Supabase
 - [x] Setup oauth with Google
 - [x] Allow linking multiple Google Analytics accounts
+- [ ] Update SvelteKit to directory-based router (408+)
 - [ ] Handle errors on sign up
 - [ ] Handle errors on sign in
-- [ ] Update SvelteKit to directory-based router (408+)
 - [ ] Create profile page
 - [ ] Make a list of metrics and dimensions to include
 - [ ] Create report generator page
