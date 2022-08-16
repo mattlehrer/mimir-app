@@ -104,7 +104,7 @@ select {
 
 /* Invalid - https://www.bram.us/2021/01/28/form-validation-you-want-notfocusinvalid-not-invalid/ */
 input:not(:focus):not(:placeholder-shown):invalid {
-	@apply border-warning-500 bg-warning-300;
+	@apply border-warning-700 bg-warning-500 text-warning-50;
 }
 
 /* Placeholders */
