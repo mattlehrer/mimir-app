@@ -1,18 +1,21 @@
-# create-svelte
+# Mimir App
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+An automated to do list for your digital marketing from your web analytics.
 
-## Creating a project
+## TODO
 
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm init svelte
-
-# create a new project in my-app
-npm init svelte my-app
-```
+- [x] Setup auth with Supabase
+- [x] Setup oauth with Google
+- [x] Allow linking multiple Google Analytics accounts
+- [ ] Handle errors on sign up
+- [ ] Handle errors on sign in
+- [ ] Update SvelteKit to directory-based router (408+)
+- [ ] Create profile page
+- [ ] Make a list of metrics and dimensions to include
+- [ ] Create report generator page
+- [ ] Create report view
+- [ ] Expose and store GA viewids
+- [ ] Setup RLS on Supabase
 
 ## Developing
 
