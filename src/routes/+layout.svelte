@@ -5,6 +5,8 @@
 	import { supabaseClient } from '$lib/supabase';
 	import { SupaAuthHelper } from '@supabase/auth-helpers-svelte';
 
+	import '../theme.css';
+	// force theme.css before app.css
 	import '../app.css';
 </script>
 

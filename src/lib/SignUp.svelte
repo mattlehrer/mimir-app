@@ -15,6 +15,7 @@
 			},
 			{ redirectTo: '/' },
 		);
+		// TODO: handle errors
 		if (error) throw error;
 		console.log({ user });
 	}
@@ -38,7 +39,7 @@
 						autocomplete="email"
 						bind:value={email}
 						required
-						class="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+						class="relative block w-full rounded-none rounded-t-md px-3 py-2 text-gray-900 placeholder-gray-500 sm:text-sm"
 						placeholder="Email address"
 					/>
 				</div>
@@ -51,7 +52,7 @@
 						autocomplete="current-password"
 						bind:value={password}
 						required
-						class="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+						class="relative block w-full rounded-none rounded-b-md px-3 py-2 text-gray-900 placeholder-gray-500 sm:text-sm"
 						placeholder="Password"
 					/>
 				</div>
@@ -61,12 +62,12 @@
 				<button
 					type="submit"
 					on:click|preventDefault={signup}
-					class="group relative flex w-full justify-center rounded-md border border-transparent bg-[#C5A87A] px-4 py-2 text-sm font-medium text-[#1C3E4F] shadow-sm hover:bg-[#d8c5a6] focus:outline-none focus:ring-2 focus:ring-[#e8dcca] focus:ring-offset-2"
+					class="group relative flex w-full justify-center rounded-md border border-transparent bg-accent-500 px-4 py-2 text-sm font-medium text-primary-500 shadow-sm hover:bg-accent-400 focus:outline-none focus:ring-2 focus:ring-accent-300 focus:ring-offset-2"
 				>
 					<span class="absolute inset-y-0 left-0 flex items-center pl-3">
 						<!-- Heroicon name: solid/lock-closed -->
 						<svg
-							class="h-5 w-5 text-[#e8dcca] group-hover:text-[#e8dcca]"
+							class="h-5 w-5 text-accent-200 group-hover:text-accent-200"
 							xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 20 20"
 							fill="currentColor"

@@ -3,12 +3,12 @@
 	import logoWhite from '$lib/../assets/logo-white.png';
 </script>
 
-<nav class="bg-gray-800">
+<nav class="bg-primary-600">
 	<div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
 		<div class="relative flex h-16 items-center justify-between">
 			<div class="flex flex-1 items-center justify-start">
 				<div class="flex flex-shrink-0 items-center">
-					<a href="/">
+					<a class="logo rounded-md focus:outline-none focus:ring-2 focus:ring-accent-200 focus:ring-offset-2" href="/">
 						<img class="block h-12 w-auto" src={logoWhite} alt="Mimir" />
 					</a>
 				</div>
@@ -19,18 +19,18 @@
 				{#if $session?.user}
 					<a
 						href="/api/auth/logout"
-						class="inline-flex items-center rounded-md border border-transparent bg-[#C5A87A] px-4 py-2 text-sm font-medium text-[#1C3E4F] shadow-sm hover:bg-[#d8c5a6] focus:outline-none focus:ring-2 focus:ring-[#e8dcca] focus:ring-offset-2"
+						class="inline-flex items-center rounded-md border border-transparent bg-accent-500 px-4 py-2 text-sm font-medium text-primary-500 shadow-sm hover:bg-accent-500	 focus:outline-none focus:ring-2 focus:ring-accent-200 focus:ring-offset-2"
 						>Sign out</a
 					>
 				{:else}
 					<a
 						href="/signup"
-						class="inline-flex items-center rounded-md border border-transparent bg-[#C5A87A] px-4 py-2 text-sm font-medium text-[#1C3E4F] shadow-sm hover:bg-[#d8c5a6] focus:outline-none focus:ring-2 focus:ring-[#e8dcca] focus:ring-offset-2"
+						class="inline-flex items-center rounded-md border border-transparent bg-accent-500 px-4 py-2 text-sm font-medium text-primary-600 shadow-sm hover:bg-[#d8c5a6] focus:outline-none focus:ring-2 focus:ring-accent-200 focus:ring-offset-2"
 						>Sign Up</a
 					>
 					<a
 						href="/signin"
-						class="inline-flex items-center rounded-md border border-[#C5A87A] bg-[#e8dcca] px-4 py-2 text-sm font-medium text-[#1C3E4F] shadow-sm hover:bg-[#d8c5a6] focus:outline-none focus:ring-2 focus:ring-[#e8dcca] focus:ring-offset-2"
+						class="inline-flex items-center rounded-md border border-accent-500 bg-accent-200 px-4 py-2 text-sm font-medium text-primary-600 shadow-sm hover:bg-[#d8c5a6] focus:outline-none focus:ring-2 focus:ring-accent-200 focus:ring-offset-2"
 						>Sign In</a
 					>
 				{/if}
