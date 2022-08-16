@@ -8,7 +8,10 @@
 		<div class="relative flex h-16 items-center justify-between">
 			<div class="flex flex-1 items-center justify-start">
 				<div class="flex flex-shrink-0 items-center">
-					<a class="logo rounded-md focus:outline-none focus:ring-2 focus:ring-accent-200 focus:ring-offset-2" href="/">
+					<a
+						class="logo rounded-md focus:outline-none focus:ring-2 focus:ring-accent-200 focus:ring-offset-2"
+						href="/"
+					>
 						<img class="block h-12 w-auto" src={logoWhite} alt="Mimir" />
 					</a>
 				</div>
