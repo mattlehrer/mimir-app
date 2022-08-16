@@ -44,6 +44,7 @@
 		"@supabase/supabase-js": "^1.35.6",
 		"cookie": "^0.5.0",
 		"googleapis": "^105.0.0",
+		"highlight.js": "^11.6.0",
 		"jwt-decode": "^3.1.2"
 	}
 }
