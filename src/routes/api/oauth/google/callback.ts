@@ -1,6 +1,5 @@
 import { oauth2Client } from '$lib/google';
 import { supabaseClient } from '$lib/supabase';
-import { supabaseServer } from '$lib/supabaseServer';
 import type { RequestHandler } from '@sveltejs/kit';
 import cookie from 'cookie';
 import jwt_decode from 'jwt-decode';
@@ -53,31 +52,17 @@ export const GET: RequestHandler = async function ({ request, url }) {
 	const data = await supabaseClient.from('google_tokens').upsert(
 		{
 			user: uid,
-			email: decodedGoogleJWT?.email,
+			email: decodedGoogleJWT?.email ?? null,
 			...tokens,
 		},
 		{ onConflict: 'user, email' },
 	);
 	console.log(JSON.stringify(data, null, 2));
-	if (!supabaseServer)
-		return {
-			status: 500,
-			body: 'Missing supabaseServer',
-		};
-	console.log('Adding metadata to user');
-	const { error } = await supabaseServer.auth.api.updateUserById(uid, {
-		app_metadata: { hasGoogleOauth: true },
-	});
-	if (error) console.error(error);
-	else {
-		await supabaseServer.auth.refreshSession();
-		// session.update((s) => ({ ...s, user: { ...s.user, hasGoogleOauth: true } }));
-	}
 
 	return {
 		status: 303,
 		headers: {
-			location: '/?google=true',
+			location: '/',
 		},
 	};
 };
