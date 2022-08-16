@@ -9,10 +9,7 @@ export const GET: RequestHandler = async function ({ request, url }) {
 	console.log('searchParams:', url.searchParams.toString());
 	const code = url.searchParams.get('code');
 	if (!code) {
-		return {
-			status: 400,
-			body: 'Missing code',
-		};
+		return new Response('Missing code', { status: 400 });
 	}
 	let tokens;
 	try {
@@ -23,31 +20,17 @@ export const GET: RequestHandler = async function ({ request, url }) {
 	} catch (error) {
 		console.error('Google Oauth error: ', JSON.stringify(error, null, 2));
 		if (error instanceof Error) {
-			return {
-				status: 500,
-				body: error.message,
-			};
+			return new Response(error.message, { status: 500 });
 		} else {
-			return {
-				status: 500,
-				body: JSON.stringify(error, null, 2),
-			};
+			return new Response(JSON.stringify(error), { status: 500 });
 		}
 	}
 	// console.log(JSON.stringify(tokens, null, 2));
-	if (!supabaseClient)
-		return {
-			status: 500,
-			body: 'Missing supabaseClient',
-		};
+	if (!supabaseClient) return new Response('Missing supabaseClient', { status: 500 });
 	const cookies = cookie.parse(request.headers.get('cookie') ?? '');
 	const jwt = cookies['sb-access-token'] ?? '';
 	const uid = (await supabaseClient.auth.api.getUser(jwt))?.user?.id;
-	if (!uid)
-		return {
-			status: 500,
-			body: 'No user',
-		};
+	if (!uid) return new Response('No user', { status: 500 });
 	const decodedGoogleJWT = tokens.id_token && (jwt_decode(tokens.id_token) as any);
 	const data = await supabaseClient.from('google_tokens').upsert(
 		{
@@ -59,10 +42,10 @@ export const GET: RequestHandler = async function ({ request, url }) {
 	);
 	console.log(JSON.stringify(data, null, 2));
 
-	return {
+	return new Response(undefined, {
 		status: 303,
 		headers: {
 			location: '/',
 		},
-	};
+	});
 };

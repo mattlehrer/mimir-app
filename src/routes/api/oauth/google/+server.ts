@@ -19,8 +19,5 @@ const url = oauth2Client.generateAuthUrl({
 
 /** @type {import('@sveltejs/kit').RequestHandler} */
 export const GET: RequestHandler = async () => {
-	return {
-		status: 303,
-		headers: { location: url },
-	};
+	return new Response(undefined, { status: 303, headers: { location: url } });
 };

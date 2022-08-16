@@ -1,9 +1,6 @@
-import { env as publicEnv } from '$env/dynamic/public';
+import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL } from '$env/static/public';
 import { createSupabaseClient } from '@supabase/auth-helpers-sveltekit';
 
-const { supabaseClient } = createSupabaseClient(
-	publicEnv.PUBLIC_SUPABASE_URL as string,
-	publicEnv.PUBLIC_SUPABASE_ANON_KEY as string,
-);
+const { supabaseClient } = createSupabaseClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY);
 
 export { supabaseClient };
