@@ -12,7 +12,7 @@
 	}
 </script>
 
-<div class="mt-16 flex min-h-full w-full flex-col place-content-center">
+<div class="flex min-h-full w-full flex-col place-content-center">
 	{#if !$session?.user}
 		<SignUp />
 	{:else}

@@ -1,31 +1,31 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+
 	import { toastStore } from '@brainandbones/skeleton';
-	
+
 	import logoDark from 'assets/logo-dark.png';
 	import { supabaseClient } from './supabase';
 
 	let email: string;
 	let password: string;
 
-function addToast({ message }: { message: string }) {
-	toastStore.trigger({
-		message,
-		autohide: true,
-		timeout: 10000,
-	});
-}
+	function addToast({ message }: { message: string }) {
+		toastStore.trigger({
+			message,
+			autohide: true,
+			timeout: 10000,
+		});
+	}
 
 	async function signin() {
 		let error;
 		try {
-		if (!supabaseClient) throw new Error('supabaseClient is not defined');
-		({ error } = await supabaseClient.auth.signIn({
-			email,
-			password,
-		},
-		{ redirectTo: '/' },
-		));
-	} catch (error) {
+			if (!supabaseClient) throw new Error('supabaseClient is not defined');
+			({ error } = await supabaseClient.auth.signIn({
+				email,
+				password,
+			}));
+		} catch (error) {
 			if (error instanceof Error) {
 				addToast({ message: error.message });
 			} else {
@@ -35,13 +35,18 @@ function addToast({ message }: { message: string }) {
 			if (error instanceof Object && Object.hasOwn(error, 'message')) {
 				addToast({ message: error.message });
 			} else {
-				addToast({ message: `Something went wrong! ${JSON.stringify(error, null, 2)}` });
+				if (error) {
+					addToast({ message: `Something went wrong! ${JSON.stringify(error, null, 2)}` });
+				} else {
+					addToast({ message: 'Welcome back' });
+					await goto('/');
+				}
 			}
 		}
 	}
 </script>
 
-<div class="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+<div class="flex min-h-full items-center justify-center py-12 px-4 sm:mt-16 sm:px-6 lg:px-8">
 	<div class="w-full max-w-md space-y-8">
 		<div>
 			<img class="mx-auto h-24 w-auto" src={logoDark} alt="Mimir" />
@@ -49,7 +54,7 @@ function addToast({ message }: { message: string }) {
 				Sign in to your account
 			</h2>
 		</div>
-		<form class="mt-8 space-y-6" action="#" method="POST">
+		<form class="mt-8 space-y-6" method="POST">
 			<input type="hidden" name="remember" value="true" />
 			<div class="-space-y-px rounded-md shadow-sm">
 				<div>
@@ -106,5 +111,14 @@ function addToast({ message }: { message: string }) {
 				</button>
 			</div>
 		</form>
+		<hr />
+		<div class="flex items-center justify-center gap-4">
+			<p class="text-center text-surface-400">Need to sign up for an account?</p>
+			<a
+				href="/signup"
+				class="btn rounded-md border border-accent-200 px-4 py-2 text-sm font-medium text-primary-400 hover:bg-accent-200 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-accent-300 focus:ring-offset-2"
+				>Sign Up</a
+			>
+		</div>
 	</div>
 </div>

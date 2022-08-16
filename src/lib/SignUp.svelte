@@ -1,5 +1,8 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+
 	import { toastStore } from '@brainandbones/skeleton';
+	import type { ToastMessage } from '@brainandbones/skeleton/Notifications/Stores';
 
 	import logoDark from 'assets/logo-dark.png';
 	import { supabaseClient } from './supabase';
@@ -7,19 +10,20 @@
 	let email: string;
 	let password: string;
 
-	function addToast({ message }: { message: string }) {
+	function addToast({ message, button }: Partial<ToastMessage>) {
 		toastStore.trigger({
 			message,
 			autohide: true,
 			timeout: 10000,
+			button,
 		});
 	}
 
 	async function signup() {
-		let error;
+		let error, user, session;
 		try {
 			if (!supabaseClient) throw new Error('supabaseClient is not defined');
-			({ error } = await supabaseClient.auth.signUp(
+			({ error, user, session } = await supabaseClient.auth.signUp(
 				{
 					email,
 					password,
@@ -27,28 +31,39 @@
 				{ redirectTo: '/' },
 			));
 		} catch (error) {
+			console.error({ error });
 			if (error instanceof Error) {
 				addToast({ message: error.message });
 			} else {
 				addToast({ message: `Something went wrong! ${JSON.stringify(error, null, 2)}` });
 			}
 		} finally {
-			if (error instanceof Object && Object.hasOwn(error, 'message')) {
-				addToast({ message: error.message });
+			if (error) {
+				if (
+					error instanceof Error ||
+					(error instanceof Object && Object.hasOwn(error, 'message'))
+				) {
+					addToast({ message: error.message });
+				} else {
+					addToast({ message: `Something went wrong! ${JSON.stringify(error, null, 2)}` });
+				}
 			} else {
-				addToast({ message: `Something went wrong! ${JSON.stringify(error, null, 2)}` });
+				addToast({
+					message: 'Do you already have an account?',
+					button: { label: 'Sign in', action: async () => await goto('/signin') },
+				});
 			}
 		}
 	}
 </script>
 
-<div class="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+<div class="flex min-h-full items-center justify-center py-12 px-4 sm:mt-16 sm:px-6 lg:px-8">
 	<div class="w-full max-w-md space-y-8">
 		<div>
 			<img class="mx-auto h-24 w-auto" src={logoDark} alt="Mimir" />
 			<h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign up for an account</h2>
 		</div>
-		<form class="mt-8 space-y-6" action="#" method="POST">
+		<form class="mt-8 space-y-6" method="POST">
 			<input type="hidden" name="remember" value="true" />
 			<div class="-space-y-px rounded-md shadow-sm">
 				<div>
@@ -105,5 +120,14 @@
 				</button>
 			</div>
 		</form>
+		<hr />
+		<div class="flex items-center justify-center gap-4">
+			<p class="text-center text-surface-400">Already have an account?</p>
+			<a
+				href="/signin"
+				class="btn rounded-md border border-accent-200 px-4 py-2 text-sm font-medium text-primary-400 hover:bg-accent-200 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-accent-300 focus:ring-offset-2"
+				>Sign In</a
+			>
+		</div>
 	</div>
 </div>
