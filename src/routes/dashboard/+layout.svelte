@@ -1,20 +1,25 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import type { LayoutData } from './$types';
+
 	import logoDark from 'assets/logo-dark.png';
-	import { fade,fly } from 'svelte/transition';
+	import { fade, fly } from 'svelte/transition';
 
-	let isMobileMenuOpen = true;
-	let views = [];
+	let isMobileMenuOpen = false;
 
-	/** @type {import('./$types').PageData} */
-  export let data;
+	export let data: LayoutData;
+	// console.log('layout', JSON.stringify(data, null, 2));
+
+	function trimUrl(url: string) {
+		return url.replace(/http(s)?(:)?(\/\/)?(www\.)?/, '');
+	}
 </script>
 
 <!-- based on https://tailwindui.com/components/application-ui/page-examples/settings-screens#component-3e81b8353a7c0ffd711ce35c6b949289 -->
-<div class="bg-white">
+<div>
 	{#if isMobileMenuOpen}
 		<!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
-		<div class="relative z-40 md:hidden" role="dialog" aria-modal="true">
+		<div class="relative z-40 md:hidden" role="dialog" aria-modal={isMobileMenuOpen}>
 			<div class="fixed inset-0 bg-surface-500 bg-opacity-75" transition:fade={{ duration: 300 }} />
 
 			<div class="fixed inset-0 z-40 flex">
@@ -37,7 +42,7 @@
 								viewBox="0 0 24 24"
 								stroke-width="2"
 								stroke="currentColor"
-								aria-hidden="true"
+								aria-hidden={isMobileMenuOpen}
 							>
 								<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
 							</svg>
@@ -51,7 +56,7 @@
 							</a>
 						</div>
 						<nav class="mt-5 space-y-1 px-2">
-							{#each views as view}
+							{#each data?.analyticsViews as view}
 								<a
 									href={`/views/${view.id}`}
 									class="{$page.url.pathname.endsWith(view.id)
@@ -59,12 +64,7 @@
 										: 'text-gray-300 hover:bg-gray-700 hover:text-white'}
 										group flex items-center rounded-md px-2 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
 								>
-									<img
-										src={`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`}
-										alt=""
-										class="w-16 rounded-2xl"
-									/>
-									<span class="px-4">{view.name}</span>
+									<span class="px-4">{view.name} • {trimUrl(view.websiteUrl)}</span>
 								</a>
 							{/each}
 						</nav>
@@ -135,7 +135,7 @@
 				<img class="h-16 w-auto" src={logoDark} alt="Mimir" />
 			</div>
 			<div class="mt-5 flex flex-grow flex-col">
-				<nav class="flex-1 space-y-1 bg-white px-2" aria-label="Sidebar">
+				<nav class="flex-1 space-y-1 bg-surface-100 px-2" aria-label="Sidebar">
 					<div>
 						<!-- Current: "bg-accent-200 text-gray-900", Default: "bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900" -->
 						<a
@@ -170,7 +170,7 @@
 						<!-- Current: "bg-gray-100 text-gray-900", Default: "bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900" -->
 						<button
 							type="button"
-							class="group flex w-full items-center rounded-md bg-white py-2 pl-2 pr-1 text-left text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+							class="group flex w-full items-center rounded-md bg-surface-100 py-2 pl-2 pr-1 text-left text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500"
 							aria-controls="sub-menu-1"
 							aria-expanded="false"
 						>
@@ -236,7 +236,7 @@
 						<!-- Current: "bg-gray-100 text-gray-900", Default: "bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900" -->
 						<button
 							type="button"
-							class="group flex w-full items-center rounded-md bg-white py-2 pl-2 pr-1 text-left text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+							class="group flex w-full items-center rounded-md bg-surface-100 py-2 pl-2 pr-1 text-left text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
 							aria-controls="sub-menu-2"
 							aria-expanded="false"
 						>
@@ -302,7 +302,7 @@
 						<!-- Current: "bg-gray-100 text-gray-900", Default: "bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900" -->
 						<button
 							type="button"
-							class="group flex w-full items-center rounded-md bg-white py-2 pl-2 pr-1 text-left text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+							class="group flex w-full items-center rounded-md bg-surface-100 py-2 pl-2 pr-1 text-left text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
 							aria-controls="sub-menu-3"
 							aria-expanded="false"
 						>
@@ -368,7 +368,7 @@
 						<!-- Current: "bg-gray-100 text-gray-900", Default: "bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900" -->
 						<button
 							type="button"
-							class="group flex w-full items-center rounded-md bg-white py-2 pl-2 pr-1 text-left text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+							class="group flex w-full items-center rounded-md bg-surface-100 py-2 pl-2 pr-1 text-left text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
 							aria-controls="sub-menu-4"
 							aria-expanded="false"
 						>
@@ -434,7 +434,7 @@
 						<!-- Current: "bg-gray-100 text-gray-900", Default: "bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900" -->
 						<button
 							type="button"
-							class="group flex w-full items-center rounded-md bg-white py-2 pl-2 pr-1 text-left text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+							class="group flex w-full items-center rounded-md bg-surface-100 py-2 pl-2 pr-1 text-left text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
 							aria-controls="sub-menu-5"
 							aria-expanded="false"
 						>
@@ -501,7 +501,7 @@
 	</div>
 
 	<!-- Content area -->
-	<div class="md:pl-64">
+	<div class="md:pl-64 ">
 		<div class="mx-auto flex max-w-4xl flex-col md:px-8 xl:px-0">
 			<div class="sticky top-0 z-10 flex h-16 flex-shrink-0 border-b border-gray-200 bg-white">
 				<button
@@ -518,7 +518,7 @@
 						viewBox="0 0 24 24"
 						stroke-width="2"
 						stroke="currentColor"
-						aria-hidden="true"
+						aria-hidden={!isMobileMenuOpen}
 					>
 						<path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7" />
 					</svg>

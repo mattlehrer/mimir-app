@@ -3,12 +3,8 @@
 @tailwind components;
 @tailwind utilities;
 
-html,
 body {
-	@apply h-screen overflow-hidden;
-}
-body {
-	@apply bg-surface-100 font-sans text-black;
+	@apply font-sans;
 }
 
 /* --- Scrollbars --- */
@@ -67,7 +63,7 @@ code:not(.codeblock code) {
 main p {
 	@apply text-base text-surface-500;
 }
-main :not(nav) > a:not(.comp-button):not(.crumb a):not(.list-item):not(.logo):not(.btn) {
+main > :not(nav) > a:not(.comp-button):not(.crumb a):not(.list-item):not(.logo):not(.btn) {
 	@apply text-primary-500 underline decoration-primary-500/20 decoration-dotted underline-offset-4;
 }
 

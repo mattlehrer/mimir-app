@@ -1,7 +1,69 @@
-// import { error } from '@sveltejs/kit';
+import { supabaseServerClient, withApiAuth } from '@supabase/auth-helpers-sveltekit';
+import { error } from '@sveltejs/kit';
+import { analytics_v3, google } from 'googleapis';
+import type { LayoutServerLoad } from './$types';
 
-/** @type {import('./$types').LayoutServerLoad} */
-export async function load({ params }) {
-	return {};
-	// throw error(404, 'Not found');
-}
+import { oauth2Client } from '$lib/google';
+import { supabaseClient } from '$lib/supabase';
+
+export const load: LayoutServerLoad = async ({ locals }) => {
+	if (!supabaseClient) {
+		throw error(500, 'Missing supabaseClient');
+	}
+	if (!locals.user) {
+		throw error(401, 'Unauthorized');
+	}
+
+	return await withApiAuth({ user: locals.user }, async () => {
+		// console.log({ user: locals.user });
+		const tokens = await supabaseServerClient(locals.accessToken ?? '')
+			.from('google_tokens')
+			.select('email, access_token, refresh_token')
+			.eq('user', locals.user?.id);
+
+		const googleAccounts = tokens.data;
+		const analyticsViews: analytics_v3.Schema$Profile[] = [];
+		if (!googleAccounts?.length) {
+			return { analyticsViews: [] };
+		}
+		for (const googleAccount of googleAccounts) {
+			oauth2Client.setCredentials(googleAccount);
+
+			// const analyticsreporting = google.analyticsreporting({ version: 'v4', auth: oauth2Client });
+			const admin = google.analytics({ version: 'v3', auth: oauth2Client });
+
+			let analyticsAccounts: Map<
+				analytics_v3.Schema$Account['id'],
+				analytics_v3.Schema$Account['name']
+			>;
+			const accounts = await admin.management.accounts.list();
+			if (accounts?.data?.items?.length) {
+				analyticsAccounts = new Map(
+					accounts.data.items
+						.filter((account) => account.id)
+						.map((account) => [account.id, account.name]),
+				);
+			}
+
+			const views = await admin.management.profiles.list({
+				accountId: '~all',
+				webPropertyId: '~all',
+			});
+			if (views?.data?.items?.length)
+				analyticsViews.push(
+					...views.data.items.map((view) => ({
+						id: view.id,
+						name: view.name,
+						websiteUrl: view.websiteUrl,
+						webPropertyId: view.webPropertyId,
+						account: {
+							id: view.accountId,
+							name: view.accountId && analyticsAccounts?.get(view.accountId),
+							email: googleAccount.email,
+						},
+					})),
+				);
+		}
+		return { analyticsViews };
+	});
+};
