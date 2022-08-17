@@ -1,7 +1,5 @@
 <script lang="ts">
 	import { session } from '$app/stores';
-	import Footer from '$lib/Footer.svelte';
-	import Nav from '$lib/Nav.svelte';
 	import { supabaseClient } from '$lib/supabase';
 	import { Toast } from '@brainandbones/skeleton';
 	import { SupaAuthHelper } from '@supabase/auth-helpers-svelte';
@@ -12,7 +10,7 @@
 </script>
 
 <Toast background="bg-accent-500" position="b" variant="filled" duration={1000} />
-<Nav />
+<!-- <Nav /> -->
 
 <main class="min-h-full">
 	{#if supabaseClient}
@@ -24,4 +22,4 @@
 	{/if}
 </main>
 
-<Footer />
+<!-- <Footer /> -->
