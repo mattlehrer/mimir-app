@@ -1,11 +1,16 @@
-export const clickOutside = (node, { enabled: initialEnabled, cb }) => {
-	const handleOutsideClick = ({ target }) => {
-		if (!node.contains(target)) {
+import type { Action } from 'svelte/action';
+
+export const clickOutside: Action = (
+	node,
+	{ enabled: initialEnabled, cb }: { enabled: boolean; cb: () => void },
+) => {
+	const handleOutsideClick = ({ target }: MouseEvent) => {
+		if (!node.contains(target as Node)) {
 			cb();
 		}
 	};
 
-	function update({ enabled }) {
+	function update({ enabled }: { enabled: boolean }) {
 		if (enabled) {
 			window.addEventListener('click', handleOutsideClick);
 		} else {
