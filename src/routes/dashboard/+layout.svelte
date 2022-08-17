@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import type { LayoutData } from './$types';
 
+	import { clickOutside } from '$lib/utils';
 	import logoDark from 'assets/logo-dark.png';
 	import { fade, fly } from 'svelte/transition';
 
@@ -26,6 +27,7 @@
 				<div
 					class="relative flex w-full max-w-xs flex-1 flex-col bg-surface-100"
 					transition:fly={{ x: -400, duration: 300, opacity: 1 }}
+					use:clickOutside={{ enabled: isMobileMenuOpen, cb: () => (isMobileMenuOpen = false) }}
 				>
 					<div class="absolute top-0 right-0 -mr-12 pt-2">
 						<button
@@ -507,7 +509,7 @@
 				<button
 					type="button"
 					class="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500 md:hidden"
-					on:click={() => (isMobileMenuOpen = true)}
+					on:click|stopPropagation={() => (isMobileMenuOpen = true)}
 				>
 					<span class="sr-only">Open sidebar</span>
 					<!-- Heroicon name: outline/menu-alt-2 -->
