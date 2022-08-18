@@ -1,14 +1,16 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { fade,fly } from 'svelte/transition';
 	import type { LayoutData } from './$types';
 
 	import { clickOutside } from '$lib/utils';
 	import logoDark from 'assets/logo-dark.png';
-	import { fade, fly } from 'svelte/transition';
+	import { setContext } from 'svelte';
 
 	let isMobileMenuOpen = false;
 
 	export let data: LayoutData;
+	setContext('analyticsViews', data.analyticsViews)
 	// console.log('layout', JSON.stringify(data, null, 2));
 
 	function trimUrl(url: string) {
@@ -72,6 +74,18 @@
 						</nav>
 					</div>
 					<nav class="mt-auto space-y-1 pt-10 pb-4">
+						<!-- <a
+							href="/settings"
+							class="group flex items-center border-l-4 border-transparent py-2 px-3 text-base font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+						>
+							Heroicon name: outline/cog
+							<svg class="mr-4 h-6 w-6 text-gray-400 group-hover:text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+							Settings
+						</a> -->
+
 						<!-- <a
 							href="/help"
 							class="group flex items-center border-l-4 border-transparent py-2 px-3 text-base font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
@@ -172,74 +186,8 @@
 						<!-- Current: "bg-gray-100 text-gray-900", Default: "bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900" -->
 						<button
 							type="button"
-							class="group flex w-full items-center rounded-md bg-surface-100 py-2 pl-2 pr-1 text-left text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500"
-							aria-controls="sub-menu-1"
-							aria-expanded="false"
-						>
-							<!-- Heroicon name: outline/users -->
-							<svg
-								class="mr-3 h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke-width="2"
-								stroke="currentColor"
-								aria-hidden="true"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
-								/>
-							</svg>
-							<span class="flex-1"> Team </span>
-							<!-- Expanded: "text-gray-400 rotate-90", Collapsed: "text-gray-300" -->
-							<svg
-								class="ml-3 h-5 w-5 flex-shrink-0 transform text-gray-300 transition-colors duration-150 ease-in-out group-hover:text-gray-400"
-								viewBox="0 0 20 20"
-								aria-hidden="true"
-							>
-								<path d="M6 6L14 10L6 14V6Z" fill="currentColor" />
-							</svg>
-						</button>
-						<!-- Expandable link section, show/hide based on state. -->
-						<div class="space-y-1" id="sub-menu-1">
-							<a
-								href="#"
-								class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-							>
-								Overview
-							</a>
-
-							<a
-								href="#"
-								class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-							>
-								Members
-							</a>
-
-							<a
-								href="#"
-								class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-							>
-								Calendar
-							</a>
-
-							<a
-								href="#"
-								class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-							>
-								Settings
-							</a>
-						</div>
-					</div>
-
-					<div class="space-y-1">
-						<!-- Current: "bg-gray-100 text-gray-900", Default: "bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900" -->
-						<button
-							type="button"
 							class="group flex w-full items-center rounded-md bg-surface-100 py-2 pl-2 pr-1 text-left text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-							aria-controls="sub-menu-2"
+							aria-controls="sub-menu-1"
 							aria-expanded="false"
 						>
 							<!-- Heroicon name: outline/folder -->
@@ -308,7 +256,7 @@
 							aria-controls="sub-menu-3"
 							aria-expanded="false"
 						>
-							<!-- Heroicon name: outline/calendar -->
+							<!-- Heroicon name: outline/chart-bar -->
 							<svg
 								class="mr-3 h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
 								xmlns="http://www.w3.org/2000/svg"
@@ -321,76 +269,10 @@
 								<path
 									stroke-linecap="round"
 									stroke-linejoin="round"
-									d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+									d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
 								/>
 							</svg>
-							<span class="flex-1"> Calendar </span>
-							<!-- Expanded: "text-gray-400 rotate-90", Collapsed: "text-gray-300" -->
-							<svg
-								class="ml-3 h-5 w-5 flex-shrink-0 transform text-gray-300 transition-colors duration-150 ease-in-out group-hover:text-gray-400"
-								viewBox="0 0 20 20"
-								aria-hidden="true"
-							>
-								<path d="M6 6L14 10L6 14V6Z" fill="currentColor" />
-							</svg>
-						</button>
-						<!-- Expandable link section, show/hide based on state. -->
-						<div class="space-y-1" id="sub-menu-3">
-							<a
-								href="#"
-								class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-							>
-								Overview
-							</a>
-
-							<a
-								href="#"
-								class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-							>
-								Members
-							</a>
-
-							<a
-								href="#"
-								class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-							>
-								Calendar
-							</a>
-
-							<a
-								href="#"
-								class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-							>
-								Settings
-							</a>
-						</div>
-					</div>
-
-					<div class="space-y-1">
-						<!-- Current: "bg-gray-100 text-gray-900", Default: "bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900" -->
-						<button
-							type="button"
-							class="group flex w-full items-center rounded-md bg-surface-100 py-2 pl-2 pr-1 text-left text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-							aria-controls="sub-menu-4"
-							aria-expanded="false"
-						>
-							<!-- Heroicon name: outline/inbox -->
-							<svg
-								class="mr-3 h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke-width="2"
-								stroke="currentColor"
-								aria-hidden="true"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
-								/>
-							</svg>
-							<span class="flex-1"> Documents </span>
+							<span class="flex-1"> Reports </span>
 							<!-- Expanded: "text-gray-400 rotate-90", Collapsed: "text-gray-300" -->
 							<svg
 								class="ml-3 h-5 w-5 flex-shrink-0 transform text-gray-300 transition-colors duration-150 ease-in-out group-hover:text-gray-400"
@@ -431,73 +313,31 @@
 							</a>
 						</div>
 					</div>
-
-					<div class="space-y-1">
-						<!-- Current: "bg-gray-100 text-gray-900", Default: "bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900" -->
-						<button
-							type="button"
-							class="group flex w-full items-center rounded-md bg-surface-100 py-2 pl-2 pr-1 text-left text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-							aria-controls="sub-menu-5"
-							aria-expanded="false"
-						>
-							<!-- Heroicon name: outline/chart-bar -->
-							<svg
-								class="mr-3 h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke-width="2"
-								stroke="currentColor"
-								aria-hidden="true"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-								/>
-							</svg>
-							<span class="flex-1"> Reports </span>
-							<!-- Expanded: "text-gray-400 rotate-90", Collapsed: "text-gray-300" -->
-							<svg
-								class="ml-3 h-5 w-5 flex-shrink-0 transform text-gray-300 transition-colors duration-150 ease-in-out group-hover:text-gray-400"
-								viewBox="0 0 20 20"
-								aria-hidden="true"
-							>
-								<path d="M6 6L14 10L6 14V6Z" fill="currentColor" />
-							</svg>
-						</button>
-						<!-- Expandable link section, show/hide based on state. -->
-						<div class="space-y-1" id="sub-menu-5">
-							<a
-								href="#"
-								class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-							>
-								Overview
-							</a>
-
-							<a
-								href="#"
-								class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-							>
-								Members
-							</a>
-
-							<a
-								href="#"
-								class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-							>
-								Calendar
-							</a>
-
-							<a
-								href="#"
-								class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-							>
-								Settings
-							</a>
-						</div>
-					</div>
 				</nav>
+				<div class="mt-auto">
+					<a
+						href="/api/auth/logout"
+						class="group flex items-center border-l-4 border-transparent py-2 px-3 text-base font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+					>
+						<!-- Heroicon name: outline/logout -->
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							class="mr-4 h-6 w-6 text-gray-400 group-hover:text-gray-500"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+							stroke-width="2"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+							/>
+						</svg>
+
+						Logout
+					</a>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -527,257 +367,7 @@
 				</button>
 			</div>
 
-			<article class="flex-1">
-				<div class="relative mx-auto max-w-4xl md:px-8 xl:px-0">
-					<div class="pt-10 pb-16">
-						<div class="px-4 sm:px-6 md:px-0">
-							<h1 class="text-3xl font-bold tracking-tight text-gray-900">Settings</h1>
-						</div>
-						<div class="px-4 sm:px-6 md:px-0">
-							<div class="py-6">
-								<!-- Tabs -->
-								<div class="lg:hidden">
-									<label for="selected-tab" class="sr-only">Select a tab</label>
-									<select
-										id="selected-tab"
-										name="selected-tab"
-										class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-purple-500 focus:outline-none focus:ring-purple-500 sm:text-sm"
-									>
-										<option selected>General</option>
-
-										<option>Password</option>
-
-										<option>Notifications</option>
-
-										<option>Plan</option>
-
-										<option>Billing</option>
-
-										<option>Team Members</option>
-									</select>
-								</div>
-								<div class="hidden lg:block">
-									<div class="border-b border-gray-200">
-										<nav class="-mb-px flex space-x-8">
-											<!-- Current: "border-purple-500 text-purple-600", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" -->
-											<a
-												href="#"
-												class="whitespace-nowrap border-b-2 border-purple-500 py-4 px-1 text-sm font-medium text-purple-600"
-											>
-												General
-											</a>
-
-											<a
-												href="#"
-												class="whitespace-nowrap border-b-2 border-transparent py-4 px-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-											>
-												Password
-											</a>
-
-											<a
-												href="#"
-												class="whitespace-nowrap border-b-2 border-transparent py-4 px-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-											>
-												Notifications
-											</a>
-
-											<a
-												href="#"
-												class="whitespace-nowrap border-b-2 border-transparent py-4 px-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-											>
-												Plan
-											</a>
-
-											<a
-												href="#"
-												class="whitespace-nowrap border-b-2 border-transparent py-4 px-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-											>
-												Billing
-											</a>
-
-											<a
-												href="#"
-												class="whitespace-nowrap border-b-2 border-transparent py-4 px-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-											>
-												Team Members
-											</a>
-										</nav>
-									</div>
-								</div>
-
-								<!-- Description list with inline editing -->
-								<div class="mt-10 divide-y divide-gray-200">
-									<div class="space-y-1">
-										<h3 class="text-lg font-medium leading-6 text-gray-900">Profile</h3>
-										<p class="max-w-2xl text-sm text-gray-500">
-											This information will be displayed publicly so be careful what you share.
-										</p>
-									</div>
-									<div class="mt-6">
-										<dl class="divide-y divide-gray-200">
-											<div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5">
-												<dt class="text-sm font-medium text-gray-500">Name</dt>
-												<dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-													<span class="flex-grow">Chelsea Hagon</span>
-													<span class="ml-4 flex-shrink-0">
-														<button
-															type="button"
-															class="rounded-md bg-white font-medium text-purple-600 hover:text-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
-															>Update</button
-														>
-													</span>
-												</dd>
-											</div>
-											<div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:pt-5">
-												<dt class="text-sm font-medium text-gray-500">Photo</dt>
-												<dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-													<span class="flex-grow">
-														<img
-															class="h-8 w-8 rounded-full"
-															src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-															alt=""
-														/>
-													</span>
-													<span class="ml-4 flex flex-shrink-0 items-start space-x-4">
-														<button
-															type="button"
-															class="rounded-md bg-white font-medium text-purple-600 hover:text-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
-															>Update</button
-														>
-														<span class="text-gray-300" aria-hidden="true">|</span>
-														<button
-															type="button"
-															class="rounded-md bg-white font-medium text-purple-600 hover:text-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
-															>Remove</button
-														>
-													</span>
-												</dd>
-											</div>
-											<div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:pt-5">
-												<dt class="text-sm font-medium text-gray-500">Email</dt>
-												<dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-													<span class="flex-grow">chelsea.hagon@example.com</span>
-													<span class="ml-4 flex-shrink-0">
-														<button
-															type="button"
-															class="rounded-md bg-white font-medium text-purple-600 hover:text-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
-															>Update</button
-														>
-													</span>
-												</dd>
-											</div>
-											<div
-												class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-b sm:border-gray-200 sm:py-5"
-											>
-												<dt class="text-sm font-medium text-gray-500">Job title</dt>
-												<dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-													<span class="flex-grow">Human Resources Manager</span>
-													<span class="ml-4 flex-shrink-0">
-														<button
-															type="button"
-															class="rounded-md bg-white font-medium text-purple-600 hover:text-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
-															>Update</button
-														>
-													</span>
-												</dd>
-											</div>
-										</dl>
-									</div>
-								</div>
-
-								<div class="mt-10 divide-y divide-gray-200">
-									<div class="space-y-1">
-										<h3 class="text-lg font-medium leading-6 text-gray-900">Account</h3>
-										<p class="max-w-2xl text-sm text-gray-500">
-											Manage how information is displayed on your account.
-										</p>
-									</div>
-									<div class="mt-6">
-										<dl class="divide-y divide-gray-200">
-											<div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5">
-												<dt class="text-sm font-medium text-gray-500">Language</dt>
-												<dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-													<span class="flex-grow">English</span>
-													<span class="ml-4 flex-shrink-0">
-														<button
-															type="button"
-															class="rounded-md bg-white font-medium text-purple-600 hover:text-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
-															>Update</button
-														>
-													</span>
-												</dd>
-											</div>
-											<div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:pt-5">
-												<dt class="text-sm font-medium text-gray-500">Date format</dt>
-												<dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-													<span class="flex-grow">DD-MM-YYYY</span>
-													<span class="ml-4 flex flex-shrink-0 items-start space-x-4">
-														<button
-															type="button"
-															class="rounded-md bg-white font-medium text-purple-600 hover:text-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
-															>Update</button
-														>
-														<span class="text-gray-300" aria-hidden="true">|</span>
-														<button
-															type="button"
-															class="rounded-md bg-white font-medium text-purple-600 hover:text-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
-															>Remove</button
-														>
-													</span>
-												</dd>
-											</div>
-											<div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:pt-5">
-												<dt class="text-sm font-medium text-gray-500" id="timezone-option-label">
-													Automatic timezone
-												</dt>
-												<dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-													<!-- Enabled: "bg-purple-600", Not Enabled: "bg-gray-200" -->
-													<button
-														type="button"
-														class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-200 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 sm:ml-auto"
-														role="switch"
-														aria-checked="true"
-														aria-labelledby="timezone-option-label"
-													>
-														<!-- Enabled: "translate-x-5", Not Enabled: "translate-x-0" -->
-														<span
-															aria-hidden="true"
-															class="inline-block h-5 w-5 translate-x-0 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
-														/>
-													</button>
-												</dd>
-											</div>
-											<div
-												class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-b sm:border-gray-200 sm:py-5"
-											>
-												<dt class="text-sm font-medium text-gray-500" id="auto-update-option-label">
-													Auto-update applicant data
-												</dt>
-												<dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-													<!-- Enabled: "bg-purple-600", Not Enabled: "bg-gray-200" -->
-													<button
-														type="button"
-														class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-200 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 sm:ml-auto"
-														role="switch"
-														aria-checked="false"
-														aria-labelledby="auto-update-option-label"
-													>
-														<!-- Enabled: "translate-x-5", Not Enabled: "translate-x-0" -->
-														<span
-															aria-hidden="true"
-															class="inline-block h-5 w-5 translate-x-0 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
-														/>
-													</button>
-												</dd>
-											</div>
-										</dl>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</article>
+			<slot />
 		</div>
 	</div>
 </div>
