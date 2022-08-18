@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { fade,fly } from 'svelte/transition';
+	import { fade, fly } from 'svelte/transition';
 	import type { LayoutData } from './$types';
 
 	import { clickOutside } from '$lib/utils';
@@ -10,7 +10,7 @@
 	let isMobileMenuOpen = false;
 
 	export let data: LayoutData;
-	setContext('analyticsViews', data.analyticsViews)
+	setContext('analyticsViews', data.analyticsViews);
 	// console.log('layout', JSON.stringify(data, null, 2));
 
 	function trimUrl(url: string) {
