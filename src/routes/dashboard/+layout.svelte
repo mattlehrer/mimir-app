@@ -5,12 +5,11 @@
 
 	import { clickOutside } from '$lib/utils';
 	import logoDark from 'assets/logo-dark.png';
-	import { setContext } from 'svelte';
 
 	let isMobileMenuOpen = false;
 
 	export let data: LayoutData;
-	setContext('analyticsViews', data.analyticsViews);
+	// setContext('analyticsViews', data.analyticsViews);
 	// console.log('layout', JSON.stringify(data, null, 2));
 
 	function trimUrl(url: string) {
@@ -145,7 +144,7 @@
 	<div class="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
 		<!-- based on https://tailwindui.com/components/application-ui/navigation/sidebar-navigation#component-ea27fcb96a81748146d26ffa281c3f6d -->
 		<div
-			class="flex flex-grow flex-col overflow-y-auto border-r border-gray-200 bg-surface-100 pt-5 pb-4"
+			class="flex flex-grow flex-col overflow-y-auto border-r border-gray-200 bg-surface-100 pt-4 pb-4"
 		>
 			<div class="flex flex-shrink-0 items-center px-4">
 				<img class="h-16 w-auto" src={logoDark} alt="Mimir" />
@@ -155,7 +154,7 @@
 					<div>
 						<!-- Current: "bg-accent-200 text-gray-900", Default: "bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900" -->
 						<a
-							href="#"
+							href="/dashboard"
 							class="group flex w-full items-center rounded-md bg-accent-200 py-2 pl-2 text-sm font-medium text-gray-900"
 						>
 							<!--
@@ -345,7 +344,9 @@
 	<!-- Content area -->
 	<div class="md:pl-64 ">
 		<div class="mx-auto flex max-w-4xl flex-col md:px-8 xl:px-0">
-			<div class="sticky top-0 z-10 flex h-16 flex-shrink-0 border-b border-gray-200 bg-white">
+			<div
+				class="sticky top-0 z-10 flex h-16 flex-shrink-0 border-b border-gray-200 bg-white md:mt-8 md:border-none"
+			>
 				<button
 					type="button"
 					class="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500 md:hidden"

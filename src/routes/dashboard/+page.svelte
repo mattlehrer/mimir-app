@@ -1,10 +1,16 @@
 <script lang="ts">
 	import type { analytics_v3 } from 'googleapis';
-	
-	export let data: {analyticsViews: analytics_v3.Schema$Profile[]};
-	// const analyticsViews: analytics_v3.Schema$Profile[] = getContext('analyticsViews');
+	import ViewTable from './ViewTable.svelte';
+
+	export let data: {
+		analyticsViews: Array<
+			analytics_v3.Schema$Profile & { account: { id: string; name: string; email: string } }
+		>;
+	};
 </script>
 
-<div>
+<!-- <div>
 	{JSON.stringify(data.analyticsViews, null, 2)}
-</div>
+</div> -->
+
+<ViewTable analyticsViews={data.analyticsViews} />
