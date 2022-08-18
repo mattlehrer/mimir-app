@@ -10,12 +10,12 @@ An automated to do list for your digital marketing from your web analytics.
 - [x] Update SvelteKit to directory-based router (408+)
 - [x] Handle errors on sign up
 - [x] Handle errors on sign in
+- [x] Setup RLS on Supabase
 - [ ] Create profile page
 - [ ] Make a list of metrics and dimensions to include
 - [ ] Create report generator page
 - [ ] Create report view
 - [ ] Expose and store GA viewids
-- [ ] Setup RLS on Supabase
 - [ ] Update to supabase-js v2 https://supabase.com/blog/supabase-js-v2
 - [ ] Use progressive enhancement on signup/signin forms (wait for sveltekit form changes)
 

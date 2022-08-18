@@ -18,8 +18,8 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 		// console.log({ user: locals.user });
 		const tokens = await supabaseServerClient(locals.accessToken ?? '')
 			.from('google_tokens')
-			.select('email, access_token, refresh_token')
-			.eq('user', locals.user?.id);
+			.select('email, access_token, refresh_token');
+		// .eq('user_id', locals.user?.id); // unnecessary with RLS
 
 		const googleAccounts = tokens.data;
 		const analyticsViews: analytics_v3.Schema$Profile[] = [];
