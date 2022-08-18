@@ -17,7 +17,7 @@
 		<div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
 			<a
 				href="/api/oauth/google"
-				class="btn inline-flex place-content-center rounded-md border border-transparent bg-accent-300 px-4 py-2 text-center text-sm font-medium text-primary-500 shadow-sm hover:bg-accent-500 focus:outline-none focus:ring-2 focus:ring-[#e8dcca] focus:ring-offset-2"
+				class="btn inline-flex place-content-center rounded-md border border-transparent bg-accent-300 px-4 py-2 text-center text-sm font-medium text-primary-500 shadow-sm hover:bg-accent-500 focus:outline-none focus:ring-2 focus:ring-accent-300 focus:ring-offset-2"
 			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
