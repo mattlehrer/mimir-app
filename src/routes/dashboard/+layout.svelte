@@ -5,9 +5,9 @@
 
 	import { page } from '$app/stores';
 	import { clickOutside } from '$lib/utils';
+	import type { View } from '$lib/View';
 	import logoDark from 'assets/logo-dark.png';
 	import type { LayoutData } from './$types';
-	import type { View } from './View';
 
 	interface ActiveView extends Partial<View> {
 		active: boolean;
@@ -17,7 +17,6 @@
 
 	export let data: LayoutData;
 	const activeViews = writable<{ [id: View['id']]: ActiveView }>(data.activeViews);
-
 	setContext('activeViews', activeViews);
 
 	function trimUrl(url: string) {

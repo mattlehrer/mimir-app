@@ -1,6 +1,6 @@
 // import { writable } from 'svelte/store';
 
-import type { View } from './View';
+import type { View } from '$lib/View';
 
 // export const activeViews = writable<{ [id: View['id']]: ActiveView }>({});
 

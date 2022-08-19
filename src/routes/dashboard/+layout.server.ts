@@ -1,11 +1,11 @@
 import { supabaseServerClient, withApiAuth } from '@supabase/auth-helpers-sveltekit';
-import { error } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 import { analytics_v3, google } from 'googleapis';
 import type { LayoutServerLoad } from './$types';
 
 import { oauth2Client } from '$lib/google';
 import { supabaseClient } from '$lib/supabase';
-import type { View } from './View';
+import type { View } from '$lib/View';
 
 export const load: LayoutServerLoad = async ({ locals }) => {
 	if (!supabaseClient) {
@@ -17,7 +17,9 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 
 	return await withApiAuth({ user: locals.user }, async () => {
 		// console.log({ user: locals.user });
-		const tokens = await supabaseServerClient(locals.accessToken ?? '')
+		if (!locals.accessToken) throw redirect(303, '/login');
+
+		const tokens = await supabaseServerClient(locals.accessToken)
 			.from('google_tokens')
 			.select('email, access_token, refresh_token');
 		// .eq('user_id', locals.user?.id); // unnecessary with RLS
@@ -71,19 +73,17 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 			}
 		}
 
-		const views = await supabaseServerClient(locals.accessToken ?? '')
-			.from('views')
-			.select('*');
-
+		const views = await supabaseServerClient(locals.accessToken).from<View>('views').select('*');
 		if (views?.error) console.error(views.error);
-		const activeViews: { [id: View['id']]: Partial<View> } = views.error
-			? {}
-			: views.data.reduce((o, v) => (o[v.id] = v), {});
-		analyticsViews.forEach((view) => {
-			if (!view.id) return;
-			if (!activeViews[view.id]) {
-				activeViews[view.id] = {
-					view_id: view.id,
+		const activeViews: { [id: View['id']]: Partial<View> } = {};
+
+		if (!views.error) views.data.forEach((v) => (activeViews[v.view_id] = v));
+
+		analyticsViews.forEach((gaView) => {
+			if (!gaView.id) return;
+			if (!Object.prototype.hasOwnProperty.call(activeViews, gaView.id)) {
+				activeViews[gaView.id] = {
+					view_id: gaView.id,
 					active: false,
 				};
 			}

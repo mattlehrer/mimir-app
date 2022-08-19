@@ -1,9 +1,9 @@
 <script lang="ts">
+	import type { View } from '$lib/View';
 	import type { analytics_v3 } from 'googleapis';
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import type { ActiveView } from './activeViews';
-	import type { View } from './View';
 
 	export let analyticsViews: Array<
 		analytics_v3.Schema$Profile & { account: { id: string; name: string; email: string } }
@@ -12,23 +12,29 @@
 	const active = getContext<Writable<{ [id: View['id']]: ActiveView }>>('activeViews');
 
 	let toggleAll = false;
+	// let ready = false;
 
-	$: toggle(toggleAll);
+	// onMount(() => {
+	// 	ready = true;
+	// });
 
-	function toggle(t: boolean) {
-		Object.keys($active).forEach((id) => ($active[id].active = t));
-	}
+	// $: toggle(toggleAll);
 
-	function handleChange(id: string) {
-		console.log('change');
+	// function toggle(t: boolean) {
+	// 	if (!$active || !ready) return;
+	// 	Object.keys($active).forEach((id) => ($active[id].active = t));
+	// }
 
-		if (id) {
-			console.log({ id });
-			// supabaseClient?.from('views').update({
-			// 	active: $activeViews[changedViewId].active
-			// }).eq('view_id', changedViewId
-			// )
-		}
+	async function handleChange(id: string) {
+			const response = await fetch('/api/db/views', {
+				method: 'POST',
+				credentials: 'include',
+				body: JSON.stringify({ ...$active[id] }),
+			});
+			if (!response.ok) {
+				console.error(response);
+				return;
+			}
 	}
 </script>
 
@@ -68,11 +74,11 @@
 						<thead class="bg-surface-50">
 							<tr>
 								<th scope="col" class="relative w-12 px-6 sm:w-16 sm:px-8">
-									<input
+									<!-- <input
 										type="checkbox"
 										bind:checked={toggleAll}
 										class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-primary-300 text-accent-600 focus:ring-accent-500 sm:left-6"
-									/>
+									/> -->
 								</th>
 								<th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-surface-900"
 									>Site</th
