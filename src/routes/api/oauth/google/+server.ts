@@ -1,5 +1,5 @@
 import { oauth2Client } from '$lib/google';
-import type { RequestHandler } from '@sveltejs/kit';
+import type { RequestHandler } from './$types';
 
 const scopes = [
 	'https://www.googleapis.com/auth/userinfo.email',
@@ -17,7 +17,6 @@ const url = oauth2Client.generateAuthUrl({
 	prompt: 'select_account',
 });
 
-/** @type {import('@sveltejs/kit').RequestHandler} */
 export const GET: RequestHandler = async () => {
 	return new Response(undefined, { status: 303, headers: { location: url } });
 };

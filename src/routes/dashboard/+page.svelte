@@ -10,8 +10,4 @@
 	};
 </script>
 
-<!-- <div>
-	{JSON.stringify(data.analyticsViews, null, 2)}
-</div> -->
-
 <ViewTable {...data} />
