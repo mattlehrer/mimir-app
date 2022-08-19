@@ -28,7 +28,7 @@
 					email,
 					password,
 				},
-				{ redirectTo: '/' },
+				{ redirectTo: '/dashboard' },
 			));
 		} catch (error) {
 			console.error({ error });
@@ -48,10 +48,16 @@
 					addToast({ message: `Something went wrong! ${JSON.stringify(error, null, 2)}` });
 				}
 			} else {
-				addToast({
-					message: 'Do you already have an account?',
-					button: { label: 'Sign in', action: async () => await goto('/signin') },
-				});
+				if (user?.confirmation_sent_at && !session?.access_token) {
+					addToast({
+						message: 'Please confirm your email and then come back',
+					});
+				} else {
+					addToast({
+						message: 'Do you already have an account?',
+						button: { label: 'Sign in', action: async () => await goto('/signin') },
+					});
+				}
 			}
 		}
 	}
