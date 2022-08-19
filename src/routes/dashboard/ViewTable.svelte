@@ -26,15 +26,15 @@
 	// }
 
 	async function handleChange(id: string) {
-			const response = await fetch('/api/db/views', {
-				method: 'POST',
-				credentials: 'include',
-				body: JSON.stringify({ ...$active[id] }),
-			});
-			if (!response.ok) {
-				console.error(response);
-				return;
-			}
+		const response = await fetch('/api/db/views', {
+			method: 'POST',
+			credentials: 'include',
+			body: JSON.stringify({ ...$active[id] }),
+		});
+		if (!response.ok) {
+			console.error(response);
+			return;
+		}
 	}
 </script>
 
