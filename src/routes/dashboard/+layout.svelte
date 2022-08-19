@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { setContext } from 'svelte';
 	import { writable } from 'svelte/store';
-	import { fade,fly } from 'svelte/transition';
+	import { fade, fly } from 'svelte/transition';
 
 	import { page } from '$app/stores';
 	import { clickOutside } from '$lib/utils';
