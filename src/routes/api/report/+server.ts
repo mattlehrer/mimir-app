@@ -1,6 +1,6 @@
 // try to get *any* data from UA API
 
-import { oauth2Client } from '$lib/google';
+import { createOauth2Client } from '$lib/google';
 import { supabaseClient } from '$lib/supabase';
 import { supabaseServerClient, withApiAuth } from '@supabase/auth-helpers-sveltekit';
 import type { RequestHandler } from '@sveltejs/kit';
@@ -20,6 +20,7 @@ export const GET: RequestHandler = async ({ locals }) => {
 			// console.log('data', JSON.stringify(data, null, 2));
 			// const gtoken = data.data?.[0]?.access_token;
 			// if (!gtoken) return { status: 500, body: 'No access token' };
+			const oauth2Client = createOauth2Client();
 			oauth2Client.setCredentials(data.data?.[0]);
 			const analyticsreporting = google.analyticsreporting({ version: 'v4', auth: oauth2Client });
 			const admin = google.analytics({ version: 'v3', auth: oauth2Client });

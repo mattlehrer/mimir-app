@@ -1,4 +1,4 @@
-import { oauth2Client } from '$lib/google';
+import { createOauth2Client } from '$lib/google';
 import { supabaseServerClient, withApiAuth } from '@supabase/auth-helpers-sveltekit';
 import { error } from '@sveltejs/kit';
 import jwt_decode from 'jwt-decode';
@@ -12,6 +12,7 @@ export const GET: RequestHandler = async function ({ url, locals }) {
 	}
 	let tokens: any;
 	try {
+		const oauth2Client = createOauth2Client();
 		({ tokens } = await oauth2Client.getToken(code));
 		// const data = await oauth2Client.getToken(code);
 		// console.log('getToken response:', JSON.stringify(data, null, 2));

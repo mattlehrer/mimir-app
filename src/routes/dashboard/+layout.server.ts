@@ -3,7 +3,7 @@ import { error, redirect } from '@sveltejs/kit';
 import { analytics_v3, google } from 'googleapis';
 import type { LayoutServerLoad } from './$types';
 
-import { oauth2Client } from '$lib/google';
+import { createOauth2Client } from '$lib/google';
 import { supabaseClient } from '$lib/supabase';
 import type { View } from '$lib/View';
 
@@ -31,6 +31,7 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 		}
 		for (const googleAccount of googleAccounts) {
 			try {
+				const oauth2Client = createOauth2Client();
 				oauth2Client.setCredentials(googleAccount);
 
 				// const analyticsreporting = google.analyticsreporting({ version: 'v4', auth: oauth2Client });
