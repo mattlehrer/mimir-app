@@ -28,42 +28,47 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 			return { analyticsViews: [] };
 		}
 		for (const googleAccount of googleAccounts) {
-			oauth2Client.setCredentials(googleAccount);
+			try {
+				oauth2Client.setCredentials(googleAccount);
 
-			// const analyticsreporting = google.analyticsreporting({ version: 'v4', auth: oauth2Client });
-			const admin = google.analytics({ version: 'v3', auth: oauth2Client });
+				// const analyticsreporting = google.analyticsreporting({ version: 'v4', auth: oauth2Client });
+				const admin = google.analytics({ version: 'v3', auth: oauth2Client });
 
-			let analyticsAccounts: Map<
-				analytics_v3.Schema$Account['id'],
-				analytics_v3.Schema$Account['name']
-			>;
-			const accounts = await admin.management.accounts.list();
-			if (accounts?.data?.items?.length) {
-				analyticsAccounts = new Map(
-					accounts.data.items
-						.filter((account) => account.id)
-						.map((account) => [account.id, account.name]),
-				);
+				let analyticsAccounts: Map<
+					analytics_v3.Schema$Account['id'],
+					analytics_v3.Schema$Account['name']
+				>;
+				const accounts = await admin.management.accounts.list();
+				if (accounts?.data?.items?.length) {
+					analyticsAccounts = new Map(
+						accounts.data.items
+							.filter((account) => account.id)
+							.map((account) => [account.id, account.name]),
+					);
+				}
+
+				const views = await admin.management.profiles.list({
+					accountId: '~all',
+					webPropertyId: '~all',
+				});
+				if (views?.data?.items?.length)
+					analyticsViews.push(
+						...views.data.items.map((view) => ({
+							id: view.id,
+							name: view.name,
+							websiteUrl: view.websiteUrl,
+							webPropertyId: view.webPropertyId,
+							account: {
+								id: view.accountId,
+								name: view.accountId && analyticsAccounts?.get(view.accountId),
+								email: googleAccount.email,
+							},
+						})),
+					);
+			} catch (error) {
+				// probably need to get user to reauthorize account
+				console.error(error);
 			}
-
-			const views = await admin.management.profiles.list({
-				accountId: '~all',
-				webPropertyId: '~all',
-			});
-			if (views?.data?.items?.length)
-				analyticsViews.push(
-					...views.data.items.map((view) => ({
-						id: view.id,
-						name: view.name,
-						websiteUrl: view.websiteUrl,
-						webPropertyId: view.webPropertyId,
-						account: {
-							id: view.accountId,
-							name: view.accountId && analyticsAccounts?.get(view.accountId),
-							email: googleAccount.email,
-						},
-					})),
-				);
 		}
 
 		const views = await supabaseServerClient(locals.accessToken ?? '')
