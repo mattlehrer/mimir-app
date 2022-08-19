@@ -12,12 +12,3 @@ export const handle: Handle = sequence(
 	// 	return await resolve(event);
 	// },
 );
-
-// export const getSession: GetSession = async (event) => {
-// 	const { user, accessToken, error } = event.locals;
-// 	return {
-// 		user,
-// 		accessToken,
-// 		error,
-// 	};
-// };
