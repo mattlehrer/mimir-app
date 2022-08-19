@@ -1,7 +1,13 @@
 <script lang="ts">
-	import { session } from '$app/stores';
+	import { getContext } from 'svelte';
+
+	import type { Session } from '@supabase/auth-helpers-svelte';
+	import type { Writable } from 'svelte/store';
+
 	import SignUp from '$lib/SignUp.svelte';
 	import '../app.css';
+
+	const session = getContext<Writable<Session>>('session');
 
 	async function getReport() {
 		const res = await fetch('/api/report', {

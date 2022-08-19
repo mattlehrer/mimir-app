@@ -1,8 +1,14 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
+	import { getContext } from 'svelte';
+
+	import type { Session } from '@supabase/auth-helpers-svelte';
+	import type { Writable } from 'svelte/store';
+
+	const session = getContext<Writable<Session>>('session');
 
 	import { toastStore } from '@brainandbones/skeleton';
 
+	import { goto, invalidate } from '$app/navigation';
 	import logoDark from 'assets/logo-dark.png';
 	import { supabaseClient } from './supabase';
 
@@ -13,18 +19,27 @@
 		toastStore.trigger({
 			message,
 			autohide: true,
-			timeout: 10000,
+			timeout: 5000,
 		});
 	}
 
 	async function signin() {
-		let error;
+		let error, user, sbSession;
 		try {
 			if (!supabaseClient) throw new Error('supabaseClient is not defined');
-			({ error } = await supabaseClient.auth.signIn({
+			({
+				error,
+				user,
+				session: sbSession,
+			} = await supabaseClient.auth.signIn({
 				email,
 				password,
 			}));
+			if (error) throw error;
+			$session = {
+				user,
+				accessToken: sbSession?.access_token,
+			};
 		} catch (error) {
 			if (error instanceof Error) {
 				addToast({ message: error.message });
@@ -38,8 +53,10 @@
 				if (error) {
 					addToast({ message: `Something went wrong! ${JSON.stringify(error, null, 2)}` });
 				} else {
-					addToast({ message: 'Welcome back' });
-					await goto('/');
+					addToast({ message: 'Welcome back. Loading the dashboard...' });
+					await invalidate('/dashboard');
+					await goto('/dashboard');
+					// window.location.href='/dashboard'
 				}
 			}
 		}

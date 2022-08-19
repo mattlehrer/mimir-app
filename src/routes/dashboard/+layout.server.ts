@@ -15,7 +15,7 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 		throw error(401, 'Unauthorized');
 	}
 
-	return await withApiAuth({ user: locals.user }, async () => {
+	return await withApiAuth({ user: locals.user, redirectTo: '/login' }, async () => {
 		// console.log({ user: locals.user });
 		if (!locals.accessToken) throw redirect(303, '/login');
 
