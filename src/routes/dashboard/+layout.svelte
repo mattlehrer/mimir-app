@@ -1,16 +1,24 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import { fade, fly } from 'svelte/transition';
-	import type { LayoutData } from './$types';
+	import { setContext } from 'svelte';
+	import { writable } from 'svelte/store';
+	import { fade,fly } from 'svelte/transition';
 
+	import { page } from '$app/stores';
 	import { clickOutside } from '$lib/utils';
 	import logoDark from 'assets/logo-dark.png';
+	import type { LayoutData } from './$types';
+	import type { View } from './View';
+
+	interface ActiveView extends Partial<View> {
+		active: boolean;
+	}
 
 	let isMobileMenuOpen = false;
 
 	export let data: LayoutData;
-	// setContext('analyticsViews', data.analyticsViews);
-	// console.log('layout', JSON.stringify(data, null, 2));
+	const activeViews = writable<{ [id: View['id']]: ActiveView }>(data.activeViews);
+
+	setContext('activeViews', activeViews);
 
 	function trimUrl(url: string) {
 		return url.replace(/http(s)?(:)?(\/\/)?(www\.)?/, '');
@@ -205,7 +213,7 @@
 									d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
 								/>
 							</svg>
-							<span class="flex-1"> Projects </span>
+							<span class="flex-1"> GA Views / Sites </span>
 							<!-- Expanded: "text-gray-400 rotate-90", Collapsed: "text-gray-300" -->
 							<svg
 								class="ml-3 h-5 w-5 flex-shrink-0 transform text-gray-300 transition-colors duration-150 ease-in-out group-hover:text-gray-400"
@@ -218,28 +226,28 @@
 						<!-- Expandable link section, show/hide based on state. -->
 						<div class="space-y-1" id="sub-menu-2">
 							<a
-								href="#"
+								href="/"
 								class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
 							>
 								Overview
 							</a>
 
 							<a
-								href="#"
+								href="/"
 								class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
 							>
 								Members
 							</a>
 
 							<a
-								href="#"
+								href="/"
 								class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
 							>
 								Calendar
 							</a>
 
 							<a
-								href="#"
+								href="/"
 								class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
 							>
 								Settings
@@ -284,28 +292,28 @@
 						<!-- Expandable link section, show/hide based on state. -->
 						<div class="space-y-1" id="sub-menu-4">
 							<a
-								href="#"
+								href="/"
 								class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
 							>
 								Overview
 							</a>
 
 							<a
-								href="#"
+								href="/"
 								class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
 							>
 								Members
 							</a>
 
 							<a
-								href="#"
+								href="/"
 								class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
 							>
 								Calendar
 							</a>
 
 							<a
-								href="#"
+								href="/"
 								class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
 							>
 								Settings
@@ -345,7 +353,7 @@
 	<div class="md:pl-64 ">
 		<div class="mx-auto flex max-w-4xl flex-col md:px-8 xl:px-0">
 			<div
-				class="sticky top-0 z-10 flex h-16 flex-shrink-0 border-b border-gray-200 bg-white md:mt-8 md:border-none"
+				class="sticky top-0 z-10 flex h-16 flex-shrink-0 border-b border-gray-200 bg-white md:static md:z-auto md:mt-8 md:border-none"
 			>
 				<button
 					type="button"

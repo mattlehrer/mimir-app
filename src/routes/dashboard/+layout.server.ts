@@ -5,6 +5,7 @@ import type { LayoutServerLoad } from './$types';
 
 import { oauth2Client } from '$lib/google';
 import { supabaseClient } from '$lib/supabase';
+import type { View } from './View';
 
 export const load: LayoutServerLoad = async ({ locals }) => {
 	if (!supabaseClient) {
@@ -64,6 +65,28 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 					})),
 				);
 		}
-		return { analyticsViews };
+
+		const views = await supabaseServerClient(locals.accessToken ?? '')
+			.from('views')
+			.select('*');
+
+		if (views?.error) console.error(views.error);
+		const activeViews: { [id: View['id']]: Partial<View> } = views.error
+			? {}
+			: views.data.reduce((o, v) => (o[v.id] = v), {});
+		analyticsViews.forEach((view) => {
+			if (!view.id) return;
+			if (!activeViews[view.id]) {
+				activeViews[view.id] = {
+					view_id: view.id,
+					active: false,
+				};
+			}
+		});
+
+		return {
+			analyticsViews,
+			activeViews,
+		};
 	});
 };

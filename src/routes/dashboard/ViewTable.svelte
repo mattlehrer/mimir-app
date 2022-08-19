@@ -1,11 +1,36 @@
 <script lang="ts">
 	import type { analytics_v3 } from 'googleapis';
+	import { getContext } from 'svelte';
+	import type { Writable } from 'svelte/store';
+	import type { ActiveView } from './activeViews';
+	import type { View } from './View';
 
 	export let analyticsViews: Array<
 		analytics_v3.Schema$Profile & { account: { id: string; name: string; email: string } }
 	> = [];
-</script>
 
+	const active = getContext<Writable<{ [id: View['id']]: ActiveView }>>('activeViews');
+
+	let toggleAll = false;
+
+	$: toggle(toggleAll);
+
+	function toggle(t: boolean) {
+		Object.keys($active).forEach((id) => ($active[id].active = t));
+	}
+
+	function handleChange(id: string) {
+		console.log('change');
+
+		if (id) {
+			console.log({ id });
+			// supabaseClient?.from('views').update({
+			// 	active: $activeViews[changedViewId].active
+			// }).eq('view_id', changedViewId
+			// )
+		}
+	}
+</script>
 
 <div class="mt-4 mb-16 px-4 sm:px-6 md:mt-0 lg:px-8">
 	<div class="sm:flex sm:items-center">
@@ -45,6 +70,7 @@
 								<th scope="col" class="relative w-12 px-6 sm:w-16 sm:px-8">
 									<input
 										type="checkbox"
+										bind:checked={toggleAll}
 										class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-primary-300 text-accent-600 focus:ring-accent-500 sm:left-6"
 									/>
 								</th>
@@ -64,12 +90,17 @@
 								<tr>
 									<td class="relative w-12 px-6 sm:w-16 sm:px-8">
 										<!-- Selected row marker, only show when row is selected. -->
-										<div class="absolute inset-y-0 left-0 w-0.5 bg-accent-600" />
-
-										<input
-											type="checkbox"
-											class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-primary-300 text-accent-600 focus:ring-accent-500 sm:left-6"
-										/>
+										{#if view.id}
+											{#if $active[view.id]?.active}
+												<div class="absolute inset-y-0 left-0 w-0.5 bg-accent-600" />
+											{/if}
+											<input
+												type="checkbox"
+												bind:checked={$active[view.id].active}
+												on:change={() => view.id && handleChange(view.id)}
+												class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-primary-300 text-accent-600 focus:ring-accent-500 sm:left-6"
+											/>
+										{/if}
 									</td>
 									<td class="whitespace-nowrap px-3 py-4 text-sm font-bold text-surface-900"
 										>{view.websiteUrl}</td
