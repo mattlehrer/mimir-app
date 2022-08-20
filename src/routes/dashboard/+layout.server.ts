@@ -1,21 +1,13 @@
 import { supabaseServerClient, withApiAuth } from '@supabase/auth-helpers-sveltekit';
-import { error, redirect } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 import { analytics_v3, google } from 'googleapis';
 import type { LayoutServerLoad } from './$types';
 
 import { createOauth2Client } from '$lib/google';
-import { supabaseClient } from '$lib/supabase';
 import type { View } from '$lib/View';
 
-export const load: LayoutServerLoad = async ({ locals }) => {
-	if (!supabaseClient) {
-		throw error(500, 'Missing supabaseClient');
-	}
-	if (!locals.user) {
-		throw error(401, 'Unauthorized');
-	}
-
-	return await withApiAuth({ user: locals.user, redirectTo: '/login' }, async () => {
+export const load: LayoutServerLoad = async ({ locals }) =>
+	withApiAuth({ user: locals.user, redirectTo: '/login' }, async () => {
 		// console.log({ user: locals.user });
 		if (!locals.accessToken) throw redirect(303, '/login');
 
@@ -95,4 +87,3 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 			activeViews,
 		};
 	});
-};
