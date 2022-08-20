@@ -25,9 +25,10 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 		// .eq('user_id', locals.user?.id); // unnecessary with RLS
 
 		const googleAccounts = tokens.data;
+		const activeViews: { [id: View['id']]: Partial<View> } = {};
 		const analyticsViews: analytics_v3.Schema$Profile[] = [];
 		if (!googleAccounts?.length) {
-			return { analyticsViews: [] };
+			return { analyticsViews, activeViews };
 		}
 		for (const googleAccount of googleAccounts) {
 			try {
@@ -76,19 +77,18 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 
 		const views = await supabaseServerClient(locals.accessToken).from<View>('views').select('*');
 		if (views?.error) console.error(views.error);
-		const activeViews: { [id: View['id']]: Partial<View> } = {};
 
 		if (!views.error) views.data.forEach((v) => (activeViews[v.view_id] = v));
 
-		analyticsViews.forEach((gaView) => {
-			if (!gaView.id) return;
+		for (const gaView of analyticsViews) {
+			if (!gaView.id) continue;
 			if (!Object.prototype.hasOwnProperty.call(activeViews, gaView.id)) {
 				activeViews[gaView.id] = {
 					view_id: gaView.id,
 					active: false,
 				};
 			}
-		});
+		}
 
 		return {
 			analyticsViews,
