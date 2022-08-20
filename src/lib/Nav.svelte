@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { getContext } from 'svelte';
-
 	import type { Session } from '@supabase/auth-helpers-svelte';
-	import logoWhite from 'assets/logo-white.png';
+	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
+
+	import logoWhite from 'assets/logo-white.png';
 
 	const session = getContext<Writable<Session>>('session');
 </script>

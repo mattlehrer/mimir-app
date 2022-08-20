@@ -11,20 +11,6 @@
 
 	const active = getContext<Writable<{ [id: View['id']]: ActiveView }>>('activeViews');
 
-	let toggleAll = false;
-	// let ready = false;
-
-	// onMount(() => {
-	// 	ready = true;
-	// });
-
-	// $: toggle(toggleAll);
-
-	// function toggle(t: boolean) {
-	// 	if (!$active || !ready) return;
-	// 	Object.keys($active).forEach((id) => ($active[id].active = t));
-	// }
-
 	async function handleChange(id: string) {
 		const response = await fetch('/api/db/views', {
 			method: 'POST',

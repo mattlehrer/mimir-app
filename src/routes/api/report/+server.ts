@@ -22,7 +22,7 @@ export const GET: RequestHandler = async ({ locals }) => {
 			// if (!gtoken) return { status: 500, body: 'No access token' };
 			const oauth2Client = createOauth2Client();
 			oauth2Client.setCredentials(data.data?.[0]);
-			const analyticsreporting = google.analyticsreporting({ version: 'v4', auth: oauth2Client });
+			// const analyticsreporting = google.analyticsreporting({ version: 'v4', auth: oauth2Client });
 			const admin = google.analytics({ version: 'v3', auth: oauth2Client });
 			// const res = await admin.management.profiles.list({
 			// 	accountId: '~all',

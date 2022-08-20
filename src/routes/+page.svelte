@@ -8,14 +8,6 @@
 	import '../app.css';
 
 	const session = getContext<Writable<Session>>('session');
-
-	async function getReport() {
-		const res = await fetch('/api/report', {
-			credentials: 'include',
-		});
-		const json = await res.json();
-		console.log({ json });
-	}
 </script>
 
 <div class="flex min-h-full w-full flex-col place-content-center">
