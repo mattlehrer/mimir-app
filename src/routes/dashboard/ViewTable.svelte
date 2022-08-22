@@ -66,10 +66,18 @@
 										class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-primary-300 text-accent-600 focus:ring-accent-500 sm:left-6"
 									/> -->
 								</th>
-								<th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-surface-900"
-									>Site</th
+								<th
+									scope="col"
+									class=" py-3.5 px-3 text-left text-sm font-bold text-surface-900"
 								>
-								<th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-surface-900"
+									<span class="block">Site</span>
+									<span class="block font-medium text-surface-500 md:hidden">
+										View Name in Google Analytics
+									</span>
+								</th>
+								<th
+									scope="col"
+									class="hidden px-3 py-3.5 text-left text-sm font-semibold text-surface-900 md:table-cell"
 									>View Name in Google Analytics</th
 								>
 								<th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-surface-900"
@@ -94,11 +102,21 @@
 											/>
 										{/if}
 									</td>
-									<td class="whitespace-nowrap px-3 py-4 text-sm font-bold text-surface-900"
-										>{view.websiteUrl}</td
+									<td
+										class=" whitespace-nowrap px-3 py-4 text-sm font-bold text-surface-900"
 									>
-									<td class="whitespace-nowrap py-4 px-3 text-sm text-surface-700">
-										<div class="font-medium " title={`View id: ${view.id}`}>{view.name}</div>
+										<div>
+											{view.websiteUrl}
+										</div>
+										<div
+											class="font-normal text-surface-500 md:hidden"
+											title={`View id: ${view.id}`}
+										>
+											{view.name}
+										</div>
+									</td>
+									<td class="hidden whitespace-nowrap py-4 px-3 text-sm text-surface-700 md:table-cell h-full"  title={`View id: ${view.id}`}>
+										{view.name}
 									</td>
 									<td class="whitespace-nowrap py-4 px-3 text-sm">
 										<div class="">
