@@ -18,7 +18,7 @@
 	const activeViews = getContext<Writable<{ [id: View['id']]: ActiveView }>>('activeViews');
 
 	function trimUrl(url: string) {
-		return url.replace(/\/$/, '').replace(/http(s)?(:)?(\/\/)?(www\.)?|^www./, '');
+		return url.replace(/\/$/, '').replace(/http(s)?(:)?(\/\/)?(www\.)?|^www\./, '');
 	}
 </script>
 
