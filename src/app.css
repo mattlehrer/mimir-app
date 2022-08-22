@@ -63,8 +63,11 @@ code:not(.codeblock code) {
 main p {
 	@apply text-base text-surface-500;
 }
-main > :not(nav) > a:not(.comp-button):not(.crumb a):not(.list-item):not(.logo):not(.btn) {
+main a:not(.comp-button):not(.crumb a):not(.list-item):not(.logo):not(.btn) {
 	@apply text-primary-500 underline decoration-primary-500/20 decoration-dotted underline-offset-4;
+}
+nav#sidebar a {
+	@apply no-underline;
 }
 
 /* --- Forms --- */
