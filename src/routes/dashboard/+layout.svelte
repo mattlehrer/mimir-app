@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { getContext, setContext } from 'svelte';
-	import { writable, type Writable } from 'svelte/store';
-	import { fade, fly, slide } from 'svelte/transition';
+	import { getContext,setContext } from 'svelte';
+	import { writable,type Writable } from 'svelte/store';
+	import { fade,fly,slide } from 'svelte/transition';
 
 	import { clickOutside } from '$lib/utils';
 	import type { View } from '$lib/View';
@@ -11,7 +11,7 @@
 		active: boolean;
 	}
 
-	let isMobileMenuOpen = true;
+	let isMobileMenuOpen = false;
 
 	export let data: LayoutData;
 	setContext('activeViews', writable<{ [id: View['id']]: ActiveView }>(data.activeViews));
