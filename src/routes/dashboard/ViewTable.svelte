@@ -27,9 +27,7 @@
 <div class="mt-4 mb-16 px-4 sm:px-6 md:mt-0 lg:px-8">
 	<div class="sm:flex sm:items-center">
 		<div class="sm:flex-auto">
-			<h1 class="text-xl font-semibold text-surface-900">
-				Which properties do you want to run reports on?
-			</h1>
+			<h1 class="text-2xl font-bold text-surface-900 md:text-4xl">Select Properties to Monitor</h1>
 		</div>
 		<div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
 			<a
@@ -66,10 +64,7 @@
 										class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-primary-300 text-accent-600 focus:ring-accent-500 sm:left-6"
 									/> -->
 								</th>
-								<th
-									scope="col"
-									class=" py-3.5 px-3 text-left text-sm font-bold text-surface-900"
-								>
+								<th scope="col" class=" py-3.5 px-3 text-left text-sm font-bold text-surface-900">
 									<span class="block">Site</span>
 									<span class="block font-medium text-surface-500 md:hidden">
 										View Name in Google Analytics
@@ -102,9 +97,7 @@
 											/>
 										{/if}
 									</td>
-									<td
-										class=" whitespace-nowrap px-3 py-4 text-sm font-bold text-surface-900"
-									>
+									<td class=" whitespace-nowrap px-3 py-4 text-sm font-bold text-surface-900">
 										<div>
 											{view.websiteUrl}
 										</div>
@@ -115,7 +108,10 @@
 											{view.name}
 										</div>
 									</td>
-									<td class="hidden whitespace-nowrap py-4 px-3 text-sm text-surface-700 md:table-cell h-full"  title={`View id: ${view.id}`}>
+									<td
+										class="hidden h-full whitespace-nowrap py-4 px-3 text-sm text-surface-700 md:table-cell"
+										title={`View id: ${view.id}`}
+									>
 										{view.name}
 									</td>
 									<td class="whitespace-nowrap py-4 px-3 text-sm">
