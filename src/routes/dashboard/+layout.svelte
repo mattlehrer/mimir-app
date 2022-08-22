@@ -190,9 +190,9 @@
 
 					<div class="space-y-0.5">
 						<!-- Current: "bg-gray-100 text-gray-900", Default: "bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900" -->
-						<button
+						<div
 							type="button"
-							class="group flex w-full items-center rounded-md bg-surface-100 py-2 pl-2 pr-1 text-left text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+							class="flex w-full items-center bg-surface-100 py-2 pl-2 pr-1 text-left text-sm font-medium text-gray-600"
 							aria-controls="sub-menu-1"
 							aria-expanded="false"
 						>
@@ -212,17 +212,8 @@
 								/>
 							</svg>
 							<span class="flex-1"> GA Views / Sites </span>
-							<!-- Expanded: "text-gray-400 rotate-90", Collapsed: "text-gray-300" -->
-							<svg
-								class="ml-3 h-5 w-5 flex-shrink-0 transform text-gray-300 transition-colors duration-150 ease-in-out group-hover:text-gray-400"
-								viewBox="0 0 20 20"
-								aria-hidden="true"
-							>
-								<path d="M6 6L14 10L6 14V6Z" fill="currentColor" />
-							</svg>
-						</button>
-						<!-- Expandable link section, show/hide based on state. -->
-						<div class="space-y-1" id="sub-menu-2">
+						</div>
+						<div class="space-y-1 pl-0.5" id="sub-menu-1">
 							{#each Object.values($activeViews).filter((v) => v.active) as view (view)}
 								<a
 									href={`/view/${view.id}`}
