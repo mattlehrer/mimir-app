@@ -66,7 +66,7 @@ main p {
 main a:not(.comp-button):not(.crumb a):not(.list-item):not(.logo):not(.btn) {
 	@apply text-primary-500 underline decoration-primary-500/20 decoration-dotted underline-offset-4;
 }
-nav#sidebar a {
+:is(nav#sidebar, nav#mobile-sidebar) a {
 	@apply no-underline;
 }
 

@@ -11,7 +11,7 @@
 		active: boolean;
 	}
 
-	let isMobileMenuOpen = false;
+	let isMobileMenuOpen = true;
 
 	export let data: LayoutData;
 	setContext('activeViews', writable<{ [id: View['id']]: ActiveView }>(data.activeViews));
@@ -63,20 +63,80 @@
 								<img class="h-16 w-auto" src={logoDark} alt="Mimir" />
 							</a>
 						</div>
-						<nav class="mt-5 space-y-1 px-2">
-							<!-- {#each Object.values($analyt) as view}
+						<nav id="mobile-sidebar" class="mt-5 space-y-1 px-2">
+							<div>
+								<!-- Current: "bg-accent-200 text-gray-900", Default: "bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900" -->
 								<a
-									href={`/views/${view.view_id}`}
-									class="{view.view_id && $page.url.pathname.endsWith(view.view_id)
-										? 'bg-gray-900 text-white'
-										: 'text-gray-300 hover:bg-gray-700 hover:text-white'}
-										group flex items-center rounded-md px-2 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+									href="/dashboard"
+									class="group flex w-full items-center rounded-md bg-accent-200 py-2 pl-2 text-sm font-medium text-gray-900"
 								>
-									<span class="px-4">{view.view_id}
-										• {trimUrl(view.websiteUrl)}
-									</span>
+									<!--
+										Heroicon name: outline/home
+
+										Current: "text-gray-500", Default: "text-gray-400 group-hover:text-gray-500"
+									-->
+									<svg
+										class="mr-3 h-6 w-6 flex-shrink-0 text-gray-500"
+										xmlns="http://www.w3.org/2000/svg"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke-width="2"
+										stroke="currentColor"
+										aria-hidden="true"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+										/>
+									</svg>
+									Dashboard
 								</a>
-							{/each} -->
+							</div>
+							<div class="space-y-0.5">
+								<!-- Current: "bg-gray-100 text-gray-900", Default: "bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900" -->
+								<div
+									type="button"
+									class="flex w-full items-center bg-surface-100 py-2 pl-2 pr-1 text-left text-sm font-medium text-gray-600"
+									aria-controls="sub-menu-1"
+									aria-expanded="false"
+								>
+									<!-- Heroicon name: outline/collection -->
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										class="mr-3 h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke="currentColor"
+										stroke-width="2"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+										/>
+									</svg>
+									<span class="flex-1"> GA Views / Sites </span>
+								</div>
+								<div class="space-y-1 pl-0.5" id="sub-menu-1">
+									{#each Object.values($activeViews).filter((v) => v.active) as view (view)}
+										<a
+											href={`/view/${view.id}`}
+											class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+											transition:slide|local
+										>
+											<div class="">
+												<div class="font-medium text-surface-800">
+													{trimUrl(data.analyticsViews[view.view_id].websiteUrl)}
+												</div>
+												<div class="font-light text-surface-600">
+													{data.analyticsViews[view.view_id].name}
+												</div>
+											</div>
+										</a>
+									{/each}
+								</div>
+							</div>
 						</nav>
 					</div>
 					<nav class="mt-auto space-y-1 pt-10 pb-4">
