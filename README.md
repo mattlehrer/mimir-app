@@ -15,6 +15,7 @@ An automated to do list for your digital marketing from your web analytics.
 - [x] Remove session store, update to newest sveltekit
 - [x] Add chosen views to sidebar / nav
 - [ ] Make a list of metrics and dimensions to include
+  - [x] just starting with bounce rate
 - [ ] Create report generator page
 - [ ] Create report view
 - [ ] Create view pages - what reports are active for each view; if any reports are active, what are the results
