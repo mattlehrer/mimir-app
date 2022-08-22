@@ -1,14 +1,12 @@
 <script lang="ts">
-	import { setContext } from 'svelte';
-	import { writable } from 'svelte/store';
-	import { fade, fly } from 'svelte/transition';
+	import { getContext, setContext } from 'svelte';
+	import { writable, type Writable } from 'svelte/store';
+	import { fade, fly, slide } from 'svelte/transition';
 
-	import { page } from '$app/stores';
 	import { clickOutside } from '$lib/utils';
 	import type { View } from '$lib/View';
 	import logoDark from 'assets/logo-dark.png';
 	import type { LayoutData } from './$types';
-
 	interface ActiveView extends Partial<View> {
 		active: boolean;
 	}
@@ -16,11 +14,11 @@
 	let isMobileMenuOpen = false;
 
 	export let data: LayoutData;
-	const activeViews = writable<{ [id: View['id']]: ActiveView }>(data.activeViews);
-	setContext('activeViews', activeViews);
+	setContext('activeViews', writable<{ [id: View['id']]: ActiveView }>(data.activeViews));
+	const activeViews = getContext<Writable<{ [id: View['id']]: ActiveView }>>('activeViews');
 
 	function trimUrl(url: string) {
-		return url.replace(/http(s)?(:)?(\/\/)?(www\.)?/, '');
+		return url.replace(/\/$/, '').replace(/http(s)?(:)?(\/\/)?(www\.)?|^www./, '');
 	}
 </script>
 
@@ -66,17 +64,19 @@
 							</a>
 						</div>
 						<nav class="mt-5 space-y-1 px-2">
-							{#each data?.analyticsViews as view}
+							<!-- {#each Object.values($analyt) as view}
 								<a
-									href={`/views/${view.id}`}
-									class="{$page.url.pathname.endsWith(view.id)
+									href={`/views/${view.view_id}`}
+									class="{view.view_id && $page.url.pathname.endsWith(view.view_id)
 										? 'bg-gray-900 text-white'
 										: 'text-gray-300 hover:bg-gray-700 hover:text-white'}
 										group flex items-center rounded-md px-2 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
 								>
-									<span class="px-4">{view.name} • {trimUrl(view.websiteUrl)}</span>
+									<span class="px-4">{view.view_id}
+										• {trimUrl(view.websiteUrl)}
+									</span>
 								</a>
-							{/each}
+							{/each} -->
 						</nav>
 					</div>
 					<nav class="mt-auto space-y-1 pt-10 pb-4">
@@ -157,7 +157,7 @@
 				<img class="h-16 w-auto" src={logoDark} alt="Mimir" />
 			</div>
 			<div class="mt-5 flex flex-grow flex-col">
-				<nav class="flex-1 space-y-1 bg-surface-100 px-2" aria-label="Sidebar">
+				<nav id="sidebar" class="flex-1 space-y-2 bg-surface-100 px-2" aria-label="Sidebar">
 					<div>
 						<!-- Current: "bg-accent-200 text-gray-900", Default: "bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900" -->
 						<a
@@ -188,7 +188,7 @@
 						</a>
 					</div>
 
-					<div class="space-y-1">
+					<div class="space-y-0.5">
 						<!-- Current: "bg-gray-100 text-gray-900", Default: "bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900" -->
 						<button
 							type="button"
@@ -196,20 +196,19 @@
 							aria-controls="sub-menu-1"
 							aria-expanded="false"
 						>
-							<!-- Heroicon name: outline/folder -->
+							<!-- Heroicon name: outline/collection -->
 							<svg
-								class="mr-3 h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
 								xmlns="http://www.w3.org/2000/svg"
+								class="mr-3 h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
 								fill="none"
 								viewBox="0 0 24 24"
-								stroke-width="2"
 								stroke="currentColor"
-								aria-hidden="true"
+								stroke-width="2"
 							>
 								<path
 									stroke-linecap="round"
 									stroke-linejoin="round"
-									d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
+									d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
 								/>
 							</svg>
 							<span class="flex-1"> GA Views / Sites </span>
@@ -224,33 +223,22 @@
 						</button>
 						<!-- Expandable link section, show/hide based on state. -->
 						<div class="space-y-1" id="sub-menu-2">
-							<a
-								href="/"
-								class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-							>
-								Overview
-							</a>
-
-							<a
-								href="/"
-								class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-							>
-								Members
-							</a>
-
-							<a
-								href="/"
-								class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-							>
-								Calendar
-							</a>
-
-							<a
-								href="/"
-								class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-							>
-								Settings
-							</a>
+							{#each Object.values($activeViews).filter((v) => v.active) as view (view)}
+								<a
+									href={`/view/${view.id}`}
+									class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+									transition:slide
+								>
+									<div class="">
+										<div class="font-medium text-surface-800">
+											{trimUrl(data.analyticsViews[view.view_id].websiteUrl)}
+										</div>
+										<div class="font-light text-surface-600">
+											{data.analyticsViews[view.view_id].name}
+										</div>
+									</div>
+								</a>
+							{/each}
 						</div>
 					</div>
 
@@ -262,20 +250,19 @@
 							aria-controls="sub-menu-3"
 							aria-expanded="false"
 						>
-							<!-- Heroicon name: outline/chart-bar -->
+							<!-- Heroicon name: outline/clipboard-list -->
 							<svg
-								class="mr-3 h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
 								xmlns="http://www.w3.org/2000/svg"
+								class="mr-3 h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
 								fill="none"
 								viewBox="0 0 24 24"
-								stroke-width="2"
 								stroke="currentColor"
-								aria-hidden="true"
+								stroke-width="2"
 							>
 								<path
 									stroke-linecap="round"
 									stroke-linejoin="round"
-									d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+									d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
 								/>
 							</svg>
 							<span class="flex-1"> Reports </span>

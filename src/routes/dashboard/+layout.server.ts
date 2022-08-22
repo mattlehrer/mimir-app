@@ -18,7 +18,15 @@ export const load: LayoutServerLoad = async ({ locals }) =>
 
 		const googleAccounts = tokens.data;
 		const activeViews: { [id: View['id']]: Partial<View> } = {};
-		const analyticsViews: analytics_v3.Schema$Profile[] = [];
+		const analyticsViews: {
+			[id: string]: analytics_v3.Schema$Profile & {
+				account: {
+					id: analytics_v3.Schema$Account['id'];
+					name: analytics_v3.Schema$Account['name'];
+					email: string;
+				};
+			};
+		} = {};
 		if (!googleAccounts?.length) {
 			return { analyticsViews, activeViews };
 		}
@@ -43,24 +51,39 @@ export const load: LayoutServerLoad = async ({ locals }) =>
 					);
 				}
 
-				const views = await admin.management.profiles.list({
+				const gaViews = await admin.management.profiles.list({
 					accountId: '~all',
 					webPropertyId: '~all',
 				});
-				if (views?.data?.items?.length)
-					analyticsViews.push(
-						...views.data.items.map((view) => ({
-							id: view.id,
-							name: view.name,
-							websiteUrl: view.websiteUrl,
-							webPropertyId: view.webPropertyId,
-							account: {
-								id: view.accountId,
-								name: view.accountId && analyticsAccounts?.get(view.accountId),
-								email: googleAccount.email,
-							},
-						})),
-					);
+				if (gaViews?.data?.items?.length) {
+					gaViews.data.items.forEach((v) => {
+						if (v.id)
+							analyticsViews[v.id] = {
+								id: v.id,
+								name: v.name,
+								websiteUrl: v.websiteUrl,
+								webPropertyId: v.webPropertyId,
+								account: {
+									id: v.accountId,
+									name: v.accountId && analyticsAccounts?.get(v.accountId),
+									email: googleAccount.email,
+								},
+							};
+					});
+					// analyticsViews.push(
+					// 	...gaViews.data.items.map((view) => ({
+					// 		id: view.id,
+					// 		name: view.name,
+					// 		websiteUrl: view.websiteUrl,
+					// 		webPropertyId: view.webPropertyId,
+					// 		account: {
+					// 			id: view.accountId,
+					// 			name: view.accountId && analyticsAccounts?.get(view.accountId),
+					// 			email: googleAccount.email,
+					// 		},
+					// 	})),
+					// );
+				}
 			} catch (error) {
 				// probably need to get user to reauthorize account
 				console.error(error);
@@ -72,11 +95,11 @@ export const load: LayoutServerLoad = async ({ locals }) =>
 
 		if (!views.error) views.data.forEach((v) => (activeViews[v.view_id] = v));
 
-		for (const gaView of analyticsViews) {
-			if (!gaView.id) continue;
-			if (!Object.prototype.hasOwnProperty.call(activeViews, gaView.id)) {
-				activeViews[gaView.id] = {
-					view_id: gaView.id,
+		for (const { id: gaViewId } of Object.values(analyticsViews)) {
+			if (!gaViewId) continue;
+			if (!Object.prototype.hasOwnProperty.call(activeViews, gaViewId)) {
+				activeViews[gaViewId] = {
+					view_id: gaViewId,
 					active: false,
 				};
 			}

@@ -78,7 +78,7 @@
 							</tr>
 						</thead>
 						<tbody class="divide-y divide-surface-200 bg-white">
-							{#each analyticsViews as view}
+							{#each Object.values(analyticsViews) as view}
 								<tr>
 									<td class="relative w-12 px-6 sm:w-16 sm:px-8">
 										<!-- Selected row marker, only show when row is selected. -->
