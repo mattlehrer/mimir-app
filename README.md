@@ -13,11 +13,11 @@ An automated to do list for your digital marketing from your web analytics.
 - [x] Setup RLS on Supabase
 - [x] Expose and store GA viewids
 - [x] Remove session store, update to newest sveltekit
-- [ ] Add chosen views to sidebar / nav
-- [ ] Create view pages - what reports are active for each view; if any reports are active, what are the results
+- [x] Add chosen views to sidebar / nav
 - [ ] Make a list of metrics and dimensions to include
 - [ ] Create report generator page
 - [ ] Create report view
+- [ ] Create view pages - what reports are active for each view; if any reports are active, what are the results
 - [ ] Integrate report views with CMS for copy that does not need full redeploy
 - [ ] Create settings page: what Google accounts are linked (note any that do not have GA accounts), set name, change email, what else?
 - [ ] Update to supabase-js v2 https://supabase.com/blog/supabase-js-v2
