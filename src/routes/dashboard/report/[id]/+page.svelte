@@ -1,5 +1,8 @@
 <script lang="ts">
 	import growth_opportunity from 'assets/growth_opportunity.png';
+	import { onMount } from 'svelte';
+	import { bounceOut } from 'svelte/easing';
+	import { tweened } from 'svelte/motion';
 	import Arc from './Arc.svelte';
 	import Needle from './Needle.svelte';
 
@@ -12,10 +15,22 @@
 		help: 'Need some help with that? We have a partner who is an expert copywriter who can help with making text concise and to the point.',
 		partner: { name: 'lemonscentedtea', website: 'https://lemonscentedtea.com' },
 		gauge: {
-			degrees: 12,
+			percentage: .1,
 			label: 'Average time spent on about page: 0 minutes and 8 seconds',
 		},
 	};
+
+	let gaugeAngle = tweened(0, {
+		duration: 1000,
+		easing: bounceOut,
+	})
+
+	onMount(()=>{
+		setTimeout(() => {
+			
+			$gaugeAngle = results.gauge.percentage * 180;
+		}, 300);
+	})
 </script>
 
 <article class="relative mx-auto mt-4 mb-16 flex max-w-lg flex-col justify-center px-4 md:mt-0">
@@ -46,7 +61,7 @@
 				<Arc />
 				<div
 					id="needle"
-					style="--tw-rotate: {`${-90 + results.gauge.degrees}deg`};"
+					style="--tw-rotate: {`${-90 + $gaugeAngle}deg`};"
 					class="absolute bottom-0 h-48 w-auto pt-2 text-accent-600"
 				>
 					<Needle />
