@@ -34,12 +34,7 @@
 				href="/api/oauth/google"
 				class="btn inline-flex place-content-center rounded-md border border-transparent bg-accent-300 px-4 py-2 text-center text-sm font-medium text-primary-500 shadow-sm hover:bg-accent-500 focus:outline-none focus:ring-2 focus:ring-accent-300 focus:ring-offset-2"
 			>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					class="-ml-1 mr-2 h-5 w-5"
-					viewBox="0 0 20 20"
-					fill="currentColor"
-				>
+				<svg xmlns="http://www.w3.org/2000/svg" class="-ml-1 mr-2 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
 					<path
 						fill-rule="evenodd"
 						d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
@@ -66,18 +61,14 @@
 								</th>
 								<th scope="col" class=" py-3.5 px-3 text-left text-sm font-bold text-surface-900">
 									<span class="block">Site</span>
-									<span class="block font-medium text-surface-500 md:hidden">
-										View Name in Google Analytics
-									</span>
+									<span class="block font-medium text-surface-500 md:hidden"> View Name in Google Analytics </span>
 								</th>
 								<th
 									scope="col"
 									class="hidden px-3 py-3.5 text-left text-sm font-semibold text-surface-900 md:table-cell"
 									>View Name in Google Analytics</th
 								>
-								<th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-surface-900"
-									>GA Account</th
-								>
+								<th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-surface-900">GA Account</th>
 							</tr>
 						</thead>
 						<tbody class="divide-y divide-surface-200 bg-white">
@@ -90,7 +81,7 @@
 												<div class="absolute inset-y-0 left-0 w-1 bg-accent-600" />
 											{/if}
 											<label>
-												<span  class="sr-only">Enable/disable {view.websiteUrl}'s {view.name}</span>
+												<span class="sr-only">Enable/disable {view.websiteUrl}'s {view.name}</span>
 												<input
 													type="checkbox"
 													bind:checked={$active[view.id].active}
@@ -104,10 +95,7 @@
 										<div>
 											{view.websiteUrl}
 										</div>
-										<div
-											class="font-normal text-surface-500 md:hidden"
-											title={`View id: ${view.id}`}
-										>
+										<div class="font-normal text-surface-500 md:hidden" title={`View id: ${view.id}`}>
 											{view.name}
 										</div>
 									</td>

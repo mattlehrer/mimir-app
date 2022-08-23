@@ -1,9 +1,6 @@
 import type { Action } from 'svelte/action';
 
-export const clickOutside: Action = (
-	node,
-	{ enabled: initialEnabled, cb }: { enabled: boolean; cb: () => void },
-) => {
+export const clickOutside: Action = (node, { enabled: initialEnabled, cb }: { enabled: boolean; cb: () => void }) => {
 	const handleOutsideClick = ({ target }: MouseEvent) => {
 		if (!node.contains(target as Node)) {
 			cb();

@@ -8,14 +8,13 @@
 
 	export let results = {
 		icon: 'blob:https://www.canva.com/619f4971-c97a-4703-8e99-9a246e67abcc',
-		recommendation:
-			'Write a shorter <span class="font-mono font-extrabold text-accent-600">/about</span> page',
+		recommendation: 'Write a shorter <span class="font-mono font-extrabold text-accent-600">/about</span> page',
 		why: 'It is important to share to your customers who you are and what your are about, it can build trust and a more personal connection between your customers and your brand.',
 		data: 'We found that customers spend a very short time on your about page, which is not enough time for them to actually read about who you are. Therefore we suggest that you write a shorter text for the about page.',
 		help: 'Need some help with that? We have a partner who is an expert copywriter who can help with making text concise and to the point.',
 		partner: { name: 'lemonscentedtea', website: 'https://lemonscentedtea.com' },
 		gauge: {
-			percentage: .1,
+			percentage: 0.1,
 			label: 'Average time spent on about page: 0 minutes and 8 seconds',
 		},
 	};
@@ -23,14 +22,13 @@
 	let gaugeAngle = tweened(0, {
 		duration: 1000,
 		easing: bounceOut,
-	})
+	});
 
-	onMount(()=>{
+	onMount(() => {
 		setTimeout(() => {
-			
 			$gaugeAngle = results.gauge.percentage * 180;
 		}, 300);
-	})
+	});
 </script>
 
 <article class="relative mx-auto mt-4 mb-16 flex max-w-lg flex-col justify-center px-4 md:mt-0">
@@ -51,9 +49,7 @@
 			<h2 class="text-base font-semibold">Help</h2>
 			<p class="text-base">{results.help}</p>
 			<p class="text-base">
-				Reach out to <a class=" text-accent-800" href={results.partner.website}
-					>{results.partner.name}</a
-				>
+				Reach out to <a class=" text-accent-800" href={results.partner.website}>{results.partner.name}</a>
 			</p>
 		</div>
 		<div class="flex justify-center py-4">
@@ -94,9 +90,8 @@
 	}
 	#needle {
 		--tw-translate-y: -30%;
-		transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate))
-			skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
-			scaleY(var(--tw-scale-y));
+		transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x))
+			skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 		transform-origin: 50% 85%;
 	}
 </style>

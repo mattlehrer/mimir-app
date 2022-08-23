@@ -38,16 +38,11 @@ export const load: LayoutServerLoad = async ({ locals }) =>
 				// const analyticsreporting = google.analyticsreporting({ version: 'v4', auth: oauth2Client });
 				const admin = google.analytics({ version: 'v3', auth: oauth2Client });
 
-				let analyticsAccounts: Map<
-					analytics_v3.Schema$Account['id'],
-					analytics_v3.Schema$Account['name']
-				>;
+				let analyticsAccounts: Map<analytics_v3.Schema$Account['id'], analytics_v3.Schema$Account['name']>;
 				const accounts = await admin.management.accounts.list();
 				if (accounts?.data?.items?.length) {
 					analyticsAccounts = new Map(
-						accounts.data.items
-							.filter((account) => account.id)
-							.map((account) => [account.id, account.name]),
+						accounts.data.items.filter((account) => account.id).map((account) => [account.id, account.name]),
 					);
 				}
 

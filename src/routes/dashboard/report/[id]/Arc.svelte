@@ -6,19 +6,15 @@
 		fill="url(#a)"
 	/><defs
 		><linearGradient id="a" x1="0" y1="169" x2="339" y2="169" gradientUnits="userSpaceOnUse"
-			><stop stop-color="#FF0303" /><stop
-				offset=".251"
-				stop-color="#F1852A"
-				stop-opacity=".933"
-			/><stop offset=".51" stop-color="#E8D743" stop-opacity=".89" /><stop
-				offset=".684"
-				stop-color="#DFE254"
-				stop-opacity=".803"
-			/><stop offset=".779" stop-color="#C5D949" stop-opacity=".53" /><stop
-				offset="1"
-				stop-color="#20C530"
-				stop-opacity=".67"
-			/></linearGradient
+			><stop stop-color="#FF0303" /><stop offset=".251" stop-color="#F1852A" stop-opacity=".933" /><stop
+				offset=".51"
+				stop-color="#E8D743"
+				stop-opacity=".89"
+			/><stop offset=".684" stop-color="#DFE254" stop-opacity=".803" /><stop
+				offset=".779"
+				stop-color="#C5D949"
+				stop-opacity=".53"
+			/><stop offset="1" stop-color="#20C530" stop-opacity=".67" /></linearGradient
 		></defs
 	></svg
 >

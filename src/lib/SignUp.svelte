@@ -39,10 +39,7 @@
 			}
 		} finally {
 			if (error) {
-				if (
-					error instanceof Error ||
-					(error instanceof Object && Object.hasOwn(error, 'message'))
-				) {
+				if (error instanceof Error || (error instanceof Object && Object.hasOwn(error, 'message'))) {
 					addToast({ message: error.message });
 				} else {
 					addToast({ message: `Something went wrong! ${JSON.stringify(error, null, 2)}` });
