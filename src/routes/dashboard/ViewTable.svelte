@@ -89,12 +89,15 @@
 											{#if $active[view.id]?.active}
 												<div class="absolute inset-y-0 left-0 w-1 bg-accent-600" />
 											{/if}
-											<input
-												type="checkbox"
-												bind:checked={$active[view.id].active}
-												on:change={() => view.id && handleChange(view.id)}
-												class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-primary-300 text-accent-600 focus:ring-accent-500 sm:left-6"
-											/>
+											<label>
+												<span  class="sr-only">Enable/disable {view.websiteUrl}'s {view.name}</span>
+												<input
+													type="checkbox"
+													bind:checked={$active[view.id].active}
+													on:change={() => view.id && handleChange(view.id)}
+													class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-primary-300 text-accent-600 focus:ring-accent-500 sm:left-6"
+												/>
+											</label>
 										{/if}
 									</td>
 									<td class=" whitespace-nowrap px-3 py-4 text-sm font-bold text-surface-900">
