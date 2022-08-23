@@ -14,7 +14,7 @@
 	},
 	"devDependencies": {
 		"@brainandbones/skeleton": "^0.30.7",
-		"@playwright/test": "^1.25.0",
+		"@playwright/test": "^1.25.1",
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/kit": "next",
 		"@tailwindcss/forms": "^0.5.2",
