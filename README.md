@@ -17,7 +17,7 @@ An automated to do list for your digital marketing from your web analytics.
 - [ ] Make a list of metrics and dimensions to include
   - [x] just starting with bounce rate
 - [ ] Create report generator page
-- [ ] Create report view
+- [x] Create report view
 - [ ] Create view pages - what reports are active for each view; if any reports are active, what are the results
 - [ ] Integrate report views with CMS for copy that does not need full redeploy
 - [ ] Create settings page: what Google accounts are linked (note any that do not have GA accounts), set name, change email, what else?

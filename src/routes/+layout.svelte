@@ -35,7 +35,7 @@
 		<Footer />
 	</div>
 {:else}
-	<main class="min-h-full bg-white">
+	<main class="min-h-full">
 		{#if supabaseClient}
 			<SupaAuthHelper {supabaseClient} {session}>
 				<slot />

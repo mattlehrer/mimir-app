@@ -27,7 +27,7 @@
 <div class="mt-4 mb-16 px-4 sm:px-6 md:mt-0 lg:px-8">
 	<div class="sm:flex sm:items-center">
 		<div class="sm:flex-auto">
-			<h1 class="text-2xl font-bold text-surface-900 md:text-4xl">Select Properties to Monitor</h1>
+			<h1 class="text-2xl font-bold text-accent-600 md:text-4xl">Select Properties to Monitor</h1>
 		</div>
 		<div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
 			<a
@@ -82,12 +82,12 @@
 						</thead>
 						<tbody class="divide-y divide-surface-200 bg-white">
 							{#each Object.values(analyticsViews) as view}
-								<tr>
+								<tr class:bg-accent-100={view.id && $active[view.id].active}>
 									<td class="relative w-12 px-6 sm:w-16 sm:px-8">
 										<!-- Selected row marker, only show when row is selected. -->
 										{#if view.id}
 											{#if $active[view.id]?.active}
-												<div class="absolute inset-y-0 left-0 w-0.5 bg-accent-600" />
+												<div class="absolute inset-y-0 left-0 w-1 bg-accent-600" />
 											{/if}
 											<input
 												type="checkbox"
