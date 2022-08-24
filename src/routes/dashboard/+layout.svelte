@@ -390,7 +390,7 @@
 	<div class="md:pl-64">
 		<div class="mx-auto flex max-w-4xl flex-col md:px-8 xl:px-0">
 			<div
-				class="sticky top-0 z-20 flex h-16 flex-shrink-0 border-b border-accent-200/30 md:static md:z-auto md:mt-8 md:border-none bg-primary-500"
+				class="sticky top-0 z-20 flex h-16 flex-shrink-0 border-b border-accent-200/30 bg-primary-500 md:static md:z-auto md:mt-8 md:border-none"
 			>
 				<button
 					type="button"
