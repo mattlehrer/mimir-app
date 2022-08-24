@@ -19,6 +19,7 @@ An automated to do list for your digital marketing from your web analytics.
 - [ ] Create report generator page
 - [x] Create report view
 - [ ] Create view pages - what reports are active for each view; if any reports are active, what are the results
+  - [ ] add onboarding toggles for landing page style, etc.
 - [ ] Integrate report views with CMS for copy that does not need full redeploy
 - [ ] Create settings page: what Google accounts are linked (note any that do not have GA accounts), set name, change email, what else?
 - [ ] Update to supabase-js v2 https://supabase.com/blog/supabase-js-v2
