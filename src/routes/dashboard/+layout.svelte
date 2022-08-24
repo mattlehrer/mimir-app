@@ -271,24 +271,26 @@
 							</svg>
 							<span class="flex-1"> GA Views / Sites </span>
 						</div>
-						<div class="space-y-1 pl-0.5" id="sub-menu-1">
-							{#each Object.values($activeViews).filter((v) => v.active) as view (view)}
-								<a
-									href={`/view/${view.id}`}
-									class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-									transition:slide
-								>
-									<div class="">
-										<div class="font-medium text-surface-800">
-											{trimUrl(data.analyticsViews[view.view_id].websiteUrl)}
+						{#if $activeViews && typeof $activeViews === 'object'}
+							<div class="space-y-1 pl-0.5" id="sub-menu-1">
+								{#each Object.values($activeViews).filter((v) => v.active) as view (view)}
+									<a
+										href={`/view/${view.id}`}
+										class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+										transition:slide
+									>
+										<div class="">
+											<div class="font-medium text-surface-800">
+												{trimUrl(data.analyticsViews[view.view_id].websiteUrl)}
+											</div>
+											<div class="font-light text-surface-600">
+												{data.analyticsViews[view.view_id].name}
+											</div>
 										</div>
-										<div class="font-light text-surface-600">
-											{data.analyticsViews[view.view_id].name}
-										</div>
-									</div>
-								</a>
-							{/each}
-						</div>
+									</a>
+								{/each}
+							</div>
+						{/if}
 					</div>
 
 					<div class="space-y-1">
