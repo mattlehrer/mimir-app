@@ -8,32 +8,10 @@
 		@apply font-sans;
 	}
 
-	/* --- Scrollbars --- */
-
-	/* Scrollbars (webkit) */
-	::-webkit-scrollbar {
-		@apply w-2;
-	}
-	::-webkit-scrollbar-track {
-		@apply bg-white/20;
-	}
-	::-webkit-scrollbar-thumb {
-		@apply rounded-full bg-surface-300;
-	}
-
-	/* Hide Scrollbars */
-	.hide-scrollbar::-webkit-scrollbar {
-		display: none;
-	}
-	.hide-scrollbar {
-		-ms-overflow-style: none; /* IE/Edge */
-		scrollbar-width: none; /* Firefox */
-	}
-
 	/* --- Typography --- */
 
 	/* Headings */
-	h1 {
+	/* h1 {
 		@apply text-4xl font-bold md:text-6xl;
 	}
 	h2 {
@@ -50,7 +28,7 @@
 	}
 	h6 {
 		@apply text-base font-bold md:text-lg;
-	}
+	} */
 
 	/* Code */
 	pre:not(.codeblock pre) {
