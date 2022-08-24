@@ -6,8 +6,6 @@
 	import { tweened } from 'svelte/motion';
 	import Arc from './Arc.svelte';
 	import Needle from './Needle.svelte';
-	import { writable, type Writable } from 'svelte/store';
-	let storeAccordion: Writable<number[]> = writable([0]);
 
 	export let results = {
 		icon: 'blob:https://www.canva.com/619f4971-c97a-4703-8e99-9a246e67abcc',
@@ -34,29 +32,31 @@
 	});
 </script>
 
-<article class="relative mx-auto mt-4 mb-16 flex max-w-lg flex-col justify-center px-4 md:mt-0">
-	<div class="absolute top-0 hidden items-start md:block">
-		<img src={growth_opportunity} class="z-0 opacity-20 lg:opacity-50" alt="growth opportunity" />
-	</div>
-	<div class="z-10 flex flex-col space-y-6 text-lg text-accent-300">
-		<h1 class="text-4xl font-semibold">{@html results.recommendation}</h1>
-		<div class="w-full">
-			<AccordionGroup classes="font-extralight" selected={storeAccordion} spacing="space-y-4" multiple>
-				<AccordionItem class="-space-y-1" value={0}>
-					<h2 slot="title">Why?</h2>
-					<svelte:fragment slot="description">
+<div class="flex justify-center">
+	<article class="relative mt-4 mb-16 max-w-xl px-0 sm:px-4 md:mt-0">
+		<div class="absolute top-0 hidden md:block">
+			<img src={growth_opportunity} class="z-0 opacity-20 lg:opacity-50" alt="growth opportunity" />
+		</div>
+		<div class="z-10 flex max-w-min flex-col space-y-4 text-lg font-extralight text-accent-300">
+			<h1 class="px-4 text-3xl font-semibold sm:whitespace-nowrap md:text-4xl">
+				{@html results.recommendation}
+			</h1>
+			<AccordionGroup spacing="space-y-4 max-w-lg" collapse={false}>
+				<AccordionItem class="-space-y-1" open>
+					<h2 slot="summary">Why?</h2>
+					<p class="wrap" slot="content">
 						{results.why}
-					</svelte:fragment>
+					</p>
 				</AccordionItem>
-				<AccordionItem class="-space-y-1" value={1}>
-					<h2 slot="title">The Data</h2>
-					<p slot="description">
+				<AccordionItem class="-space-y-1">
+					<h2 slot="summary">The Data</h2>
+					<p slot="content">
 						{results.data}
 					</p>
 				</AccordionItem>
-				<AccordionItem class="-space-y-1" value={2}>
-					<h2 slot="title">Help</h2>
-					<div slot="description">
+				<AccordionItem class="-space-y-1">
+					<h2 slot="summary">Help</h2>
+					<div slot="content">
 						<p>
 							{results.help}
 						</p>
@@ -65,23 +65,23 @@
 						</p>
 					</div>
 				</AccordionItem>
-				<div class="flex justify-center py-4">
-					<figure class="relative flex flex-col items-center space-y-6">
-						<Arc />
-						<div
-							id="needle"
-							style="--tw-rotate: {`${-90 + $gaugeAngle}deg`};"
-							class="absolute bottom-0 h-48 w-auto pt-2 text-accent-600"
-						>
-							<Needle />
-						</div>
-						<figcaption class="max-w-xs px-8 pt-2 text-center">{results.gauge.label}</figcaption>
-					</figure>
-				</div>
 			</AccordionGroup>
+			<div class="flex justify-center py-4">
+				<figure class="relative flex scale-[90%] flex-col items-center space-y-6">
+					<Arc />
+					<div
+						id="needle"
+						style="--tw-rotate: {`${-90 + $gaugeAngle}deg`};"
+						class="absolute bottom-0 h-48 w-auto pt-2 text-accent-600"
+					>
+						<Needle />
+					</div>
+					<figcaption class="max-w-xs px-8 pt-2 text-center">{results.gauge.label}</figcaption>
+				</figure>
+			</div>
 		</div>
-	</div>
-</article>
+	</article>
+</div>
 
 <style>
 	h2 {

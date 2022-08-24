@@ -1,13 +1,13 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@brainandbones/skeleton': ^0.30.7
+  '@brainandbones/skeleton': ^0.32.19
   '@playwright/test': ^1.25.1
   '@supabase/auth-helpers-svelte': ^0.4.5
   '@supabase/auth-helpers-sveltekit': ^0.6.10
   '@supabase/supabase-js': ^1.35.6
-  '@sveltejs/adapter-auto': next
-  '@sveltejs/kit': next
+  '@sveltejs/adapter-auto': 1.0.0-next.66
+  '@sveltejs/kit': 1.0.0-next.435
   '@tailwindcss/forms': ^0.5.2
   '@types/cookie': ^0.5.1
   '@typescript-eslint/eslint-plugin': ^5.34.0
@@ -17,7 +17,7 @@ specifiers:
   eslint: ^8.22.0
   eslint-config-prettier: ^8.5.0
   eslint-plugin-svelte3: ^4.0.0
-  googleapis: ^105.0.0
+  googleapis: ^107.0.0
   highlight.js: ^11.6.0
   jwt-decode: ^3.1.2
   postcss: ^8.4.16
@@ -37,15 +37,15 @@ dependencies:
   '@supabase/auth-helpers-sveltekit': 0.6.10
   '@supabase/supabase-js': 1.35.6
   cookie: 0.5.0
-  googleapis: 105.0.0
+  googleapis: 107.0.0
   highlight.js: 11.6.0
   jwt-decode: 3.1.2
 
 devDependencies:
-  '@brainandbones/skeleton': 0.30.7
+  '@brainandbones/skeleton': 0.32.19
   '@playwright/test': 1.25.1
-  '@sveltejs/adapter-auto': 1.0.0-next.65
-  '@sveltejs/kit': 1.0.0-next.431_svelte@3.49.0+vite@3.0.9
+  '@sveltejs/adapter-auto': 1.0.0-next.66
+  '@sveltejs/kit': 1.0.0-next.435_svelte@3.49.0+vite@3.0.9
   '@tailwindcss/forms': 0.5.2_tailwindcss@3.1.8
   '@types/cookie': 0.5.1
   '@typescript-eslint/eslint-plugin': 5.34.0_euudt5oqhhodkyae5tf6wjmsda
@@ -68,10 +68,8 @@ devDependencies:
 
 packages:
 
-  /@brainandbones/skeleton/0.30.7:
-    resolution: {integrity: sha512-Jffy4JUglq+X/sWR41YEeFero4+NrrWB8L1tlOvSn6WRBYQvTTm95I00VvjOjDhrLB4tFFVYjF/D2CFuaOOKRg==}
-    dependencies:
-      highlight.js: 11.6.0
+  /@brainandbones/skeleton/0.32.19:
+    resolution: {integrity: sha512-vhpffwplTb6bqt9S+0OxOJZB4bzUcqPIMotMxqth72Cz/rnXOWFqTuTmJmYiUjoCfVSnF5GkszsmD+uUBvqMOg==}
     dev: true
 
   /@cloudflare/workers-types/3.14.1:
@@ -284,27 +282,27 @@ packages:
       - supports-color
     dev: false
 
-  /@sveltejs/adapter-auto/1.0.0-next.65:
-    resolution: {integrity: sha512-wYEcOeuCrswcmeOdmbaq+WxTp7vWN1fG1yPvmdzqe2LoUchOw6FQb6X/fR8miX6L8MXQXJteA0ntqE3FKqaBsw==}
+  /@sveltejs/adapter-auto/1.0.0-next.66:
+    resolution: {integrity: sha512-p78AQaSDHkLS5EFGqCF2xrLHMjKxx6wTLUvnP26cu2llh/VV4NihQ0rheVNgPWL+tGZpVznhrUG8fWmJxPciug==}
     dependencies:
-      '@sveltejs/adapter-cloudflare': 1.0.0-next.31
-      '@sveltejs/adapter-netlify': 1.0.0-next.71
-      '@sveltejs/adapter-vercel': 1.0.0-next.67
+      '@sveltejs/adapter-cloudflare': 1.0.0-next.32
+      '@sveltejs/adapter-netlify': 1.0.0-next.72
+      '@sveltejs/adapter-vercel': 1.0.0-next.68
     transitivePeerDependencies:
       - encoding
       - supports-color
     dev: true
 
-  /@sveltejs/adapter-cloudflare/1.0.0-next.31:
-    resolution: {integrity: sha512-HhEFZP72GJ8AZGgFECKIiayDcLaAWi65pI0AnBfiNhCifYSlH/mPNWNVD4AWRDnXnH6XU+FLwhGDnIDwytTyYg==}
+  /@sveltejs/adapter-cloudflare/1.0.0-next.32:
+    resolution: {integrity: sha512-tzkUsdQlBk9xUjcGUOBYos4HKaeaXvz9v4TQ1QS2yIHEtL5xvMEDPZ94/DB2gPL4LZCnYbdY2lsy5HCsoN0hkQ==}
     dependencies:
       '@cloudflare/workers-types': 3.14.1
       esbuild: 0.14.54
       worktop: 0.8.0-next.14
     dev: true
 
-  /@sveltejs/adapter-netlify/1.0.0-next.71:
-    resolution: {integrity: sha512-la1CGtWO1xul1L3zEoFAoc4EX2uxZjrZcOMS3tkKB8drxhbQsNbnTE6fmSSMFiZXhxaikczrBgQwqIaDkLTmZg==}
+  /@sveltejs/adapter-netlify/1.0.0-next.72:
+    resolution: {integrity: sha512-g570hYAMkgrJfo/TRg3DZFmlR7bNFHECFPOMgc8R+f28ROap/nXA8ICbiSBF7+zJ5JXvJbqHGjERSsyhEq+59g==}
     dependencies:
       '@iarna/toml': 2.2.5
       esbuild: 0.14.54
@@ -312,8 +310,8 @@ packages:
       tiny-glob: 0.2.9
     dev: true
 
-  /@sveltejs/adapter-vercel/1.0.0-next.67:
-    resolution: {integrity: sha512-xg85d/vlivbTaZu70zmaPNkrY1YZhDrcxljuwVWO0LCzA4DACIA7CnXI9klUiXM5SPpsB8BhY6dS8sW5cDYWzw==}
+  /@sveltejs/adapter-vercel/1.0.0-next.68:
+    resolution: {integrity: sha512-ImM+fDwGkVaf920Wzh284nfAfu/WoPXCpMwog0kveIODVgCozbpJY55fO860LccqdS0YDyeFqOUrZJCqcYNx4w==}
     dependencies:
       '@vercel/nft': 0.21.0
       esbuild: 0.14.54
@@ -322,8 +320,8 @@ packages:
       - supports-color
     dev: true
 
-  /@sveltejs/kit/1.0.0-next.431_svelte@3.49.0+vite@3.0.9:
-    resolution: {integrity: sha512-kK3FCw0cBB/nqjgV8G9W5ctDxemQpkqxidsKVr3aEXSExm4mdM3MYgNf6y2OuvOH9zLD+/t6DAxQQC/RPxuz8Q==}
+  /@sveltejs/kit/1.0.0-next.435_svelte@3.49.0+vite@3.0.9:
+    resolution: {integrity: sha512-3JR9Eqb20ZJcYmDgJH/EaQgISkXunIYrYTYcYf/hAZGpqOiLEfQ9b24AQcKEZ0fMZWeEew7+KiRpMZtyYkTZVw==}
     engines: {node: '>=16.9'}
     hasBin: true
     requiresBuild: true
@@ -1621,8 +1619,8 @@ packages:
       - supports-color
     dev: false
 
-  /googleapis/105.0.0:
-    resolution: {integrity: sha512-wH/jU/6QpqwsjTKj4vfKZz97ne7xT7BBbKwzQEwnbsG8iH9Seyw19P+AuLJcxNNrmgblwLqfr3LORg4Okat1BQ==}
+  /googleapis/107.0.0:
+    resolution: {integrity: sha512-emMvsOEPvE9/DxrOVCMblQzKAhaar37c5JPAqYXoo+hxPpzFefkpN5ayIJFgatDpUWCSMvWtP3CcEWfFhFA7QA==}
     engines: {node: '>=12.0.0'}
     dependencies:
       google-auth-library: 8.4.0
@@ -1675,6 +1673,7 @@ packages:
   /highlight.js/11.6.0:
     resolution: {integrity: sha512-ig1eqDzJaB0pqEvlPVIpSSyMaO92bH1N2rJpLMN/nX396wTpDA4Eq0uK+7I/2XG17pFaaKE0kjV/XPeGt7Evjw==}
     engines: {node: '>=12.0.0'}
+    dev: false
 
   /https-proxy-agent/5.0.1:
     resolution: {integrity: sha512-dFcAjpTQFgoLMzC2VwU+C/CbS7uRL0lWmxDITmqm7C+7F0Odmj6s9l6alZc6AELXhrnggM2CeWSXHGOdX2YtwA==}
