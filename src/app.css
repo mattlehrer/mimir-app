@@ -42,8 +42,9 @@
 	main p {
 		@apply text-base text-surface-500;
 	}
-	article p {
+	:is(article, form) p {
 		@apply text-inherit;
+		font-size: inherit;
 	}
 	main a:not(.comp-button):not(.crumb a):not(.list-item):not(.logo):not(.btn) {
 		@apply text-primary-500 underline decoration-primary-500/20 decoration-dotted underline-offset-4;
@@ -78,8 +79,11 @@
 	}
 
 	/* Selectable */
-	[type='checkbox'],
+
 	[type='radio'] {
+		@apply rounded-full border-surface-500 text-accent-600 focus:ring-accent-500;
+	}
+	[type='checkbox'] {
 		@apply rounded border-surface-500 text-accent-600 focus:ring-accent-500;
 	}
 

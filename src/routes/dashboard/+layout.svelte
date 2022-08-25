@@ -121,7 +121,7 @@
 								<div class="space-y-1 pl-0.5" id="sub-menu-1">
 									{#each Object.values($activeViews).filter((v) => v.active) as view (view)}
 										<a
-											href={`/view/${view.id}`}
+											href={`/dashboard/view/${view.id}`}
 											class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
 											transition:slide|local
 										>
@@ -275,7 +275,7 @@
 							<div class="space-y-1 pl-0.5" id="sub-menu-1">
 								{#each Object.values($activeViews).filter((v) => v.active) as view (view)}
 									<a
-										href={`/view/${view.id}`}
+										href={`/dashboard/view/${view.id}`}
 										class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
 										transition:slide
 									>
