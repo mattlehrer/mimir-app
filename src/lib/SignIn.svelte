@@ -54,9 +54,8 @@
 					addToast({ message: `Something went wrong! ${JSON.stringify(error, null, 2)}` });
 				} else {
 					addToast({ message: 'Welcome back. Loading the dashboard...' });
-					await invalidate('/dashboard');
+					await invalidate();
 					await goto('/dashboard');
-					// window.location.href='/dashboard'
 				}
 			}
 		}
