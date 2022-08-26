@@ -4,14 +4,14 @@
 	import { fade, fly, slide } from 'svelte/transition';
 
 	import { clickOutside, trimUrl } from '$lib/utils';
-	import type { View } from '$lib/View';
 	import logoDark from 'assets/logo-dark.png';
-	import type { ActiveView } from './activeViews';
 	import { page } from '$app/stores';
+	import type { ActiveViews } from '$lib/types';
 
 	let isMobileMenuOpen = false;
-	setContext('activeViews', writable<{ [id: View['id']]: ActiveView }>($page.data.activeViews));
-	const activeViews = getContext<Writable<{ [id: View['id']]: ActiveView }>>('activeViews');
+	setContext('activeViews', writable<ActiveViews>($page.data.activeViews));
+	const activeViews = getContext<Writable<ActiveViews>>('activeViews');
+
 </script>
 
 <!-- based on https://tailwindui.com/components/application-ui/page-examples/settings-screens#component-3e81b8353a7c0ffd711ce35c6b949289 -->

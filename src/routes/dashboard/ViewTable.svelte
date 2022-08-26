@@ -1,15 +1,14 @@
 <script lang="ts">
-	import type { View } from '$lib/View';
 	import type { analytics_v3 } from 'googleapis';
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
-	import type { ActiveView } from './activeViews';
+	import type { ActiveViews } from '$lib/types';
 
 	export let analyticsViews: Array<
 		analytics_v3.Schema$Profile & { account: { id: string; name: string; email: string } }
 	> = [];
 
-	const active = getContext<Writable<{ [id: View['id']]: ActiveView }>>('activeViews');
+	const active = getContext<Writable<ActiveViews>>('activeViews');
 
 	async function handleChange(id: string) {
 		const response = await fetch('/api/db/views', {

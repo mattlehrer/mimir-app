@@ -1,14 +1,13 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
 	import { page } from '$app/stores';
-	import type { View } from '$lib/View';
+	import type { ActiveView, ActiveViews } from '$lib/types';
 	import type { Writable } from 'svelte/store';
-	import type { ActiveView } from '../../activeViews';
 	import Onboarding from './Onboarding.svelte';
 	import { trimUrl } from '$lib/utils';
 	import { slide } from 'svelte/transition';
 
-	const activeViews = getContext<Writable<{ [id: View['id']]: ActiveView }>>('activeViews');
+	const activeViews = getContext<Writable<ActiveViews>>('activeViews');
 
 	$: paramId = Number($page.params.id);
 	let view: ActiveView | undefined;

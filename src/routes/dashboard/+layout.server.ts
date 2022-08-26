@@ -1,11 +1,11 @@
 import { supabaseServerClient } from '@supabase/auth-helpers-sveltekit';
 import { redirect } from '@sveltejs/kit';
 import { analytics_v3, google } from 'googleapis';
+import { GaxiosError } from 'gaxios';
 import type { LayoutServerLoad } from './$types';
 
 import { createOauth2Client } from '$lib/google';
-import type { View } from '$lib/View';
-import type { ActiveView } from './activeViews';
+import type { View, ActiveView } from '$lib/types';
 
 export const load: LayoutServerLoad = async ({ locals }) => {
 	if (!locals.user || !locals.accessToken) throw redirect(303, '/signin');
