@@ -32,6 +32,10 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 	}
 	for (const googleAccount of googleAccounts) {
 		try {
+			if (!googleAccount.refresh_token) {
+				deauthorizedGoogleAccounts.push(googleAccount.email);
+				continue;
+			}
 			const oauth2Client = createOauth2Client();
 			oauth2Client.setCredentials(googleAccount);
 

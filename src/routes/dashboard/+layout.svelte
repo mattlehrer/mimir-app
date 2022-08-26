@@ -12,6 +12,9 @@
 	setContext('activeViews', writable<ActiveViews>($page.data.activeViews));
 	const activeViews = getContext<Writable<ActiveViews>>('activeViews');
 
+	if ($page.data.deauthorizedGoogleAccounts) {
+		console.log('deauthorizedGoogleAccounts', $page.data.deauthorizedGoogleAccounts);
+	}
 </script>
 
 <!-- based on https://tailwindui.com/components/application-ui/page-examples/settings-screens#component-3e81b8353a7c0ffd711ce35c6b949289 -->
@@ -286,24 +289,26 @@
 							<div class="space-y-1 pl-0.5" id="sub-menu-1">
 								{#each Object.values($activeViews).filter((v) => v.active) as view (view)}
 									<!-- Current: "bg-gray-100 text-gray-900", Default: "bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900" -->
-									<a
-										href={`/dashboard/view/${view.id}`}
-										class={`group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium  ${
-											$page.url.pathname.endsWith(`view/${view.id}`)
-												? 'bg-accent-200 text-gray-900'
-												: 'text-gray-600 hover:bg-white hover:text-gray-900'
-										}`}
-										transition:slide
-									>
-										<div class="">
-											<div class="font-medium text-surface-800">
-												{trimUrl($page.data.analyticsViews[view.view_id].websiteUrl)}
+									{#if view?.view_id && $page.data.analyticsViews[view.view_id]}
+										<a
+											href={`/dashboard/view/${view.id}`}
+											class={`group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium  ${
+												$page.url.pathname.endsWith(`view/${view.id}`)
+													? 'bg-accent-200 text-gray-900'
+													: 'text-gray-600 hover:bg-white hover:text-gray-900'
+											}`}
+											transition:slide
+										>
+											<div class="">
+												<div class="font-medium text-surface-800">
+													{trimUrl($page.data.analyticsViews[view.view_id].websiteUrl)}
+												</div>
+												<div class="font-light text-surface-600">
+													{$page.data.analyticsViews[view.view_id].name}
+												</div>
 											</div>
-											<div class="font-light text-surface-600">
-												{$page.data.analyticsViews[view.view_id].name}
-											</div>
-										</div>
-									</a>
+										</a>
+									{/if}
 								{/each}
 							</div>
 						{/if}
