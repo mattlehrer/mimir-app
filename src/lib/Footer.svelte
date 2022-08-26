@@ -1,14 +1,12 @@
 <div class="mt-auto flex h-16 items-center justify-center text-sm text-gray-600">
 	Made with <svg
 		xmlns="http://www.w3.org/2000/svg"
-		class="mx-px inline-block h-5 w-5"
+		class="mx-1 inline-block h-5 w-5"
 		viewBox="0 0 20 20"
 		fill="currentColor"
 	>
 		<path
-			fill-rule="evenodd"
-			d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-			clip-rule="evenodd"
+			d="M9.693 17.934l-.003-.001-.006-.003-.021-.01a8.112 8.112 0 01-.355-.172 20.748 20.748 0 01-3.917-2.592C3.266 13.361 1 10.608 1 7a5 5 0 019-3 5 5 0 019 3c0 3.608-2.266 6.361-4.39 8.156a20.745 20.745 0 01-4.196 2.729 7.809 7.809 0 01-.077.035l-.021.01-.006.003-.002.001a.766.766 0 01-.615 0z"
 		/>
 	</svg> in Malmö
 </div>
