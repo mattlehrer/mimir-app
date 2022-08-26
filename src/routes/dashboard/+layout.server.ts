@@ -12,10 +12,11 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 
 	const tokens = await supabaseServerClient(locals.accessToken)
 		.from('google_tokens')
-		.select('email, access_token, refresh_token');
+		.select('id, email, access_token, refresh_token');
 	// .eq('user_id', locals.user?.id); // unnecessary with RLS
 
 	const googleAccounts = tokens.data;
+	const deauthorizedGoogleAccounts: string[] = [];
 	const activeViews: { [id: string]: ActiveView } = {};
 	const analyticsViews: {
 		[id: string]: analytics_v3.Schema$Profile & {
@@ -66,8 +67,22 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 				});
 			}
 		} catch (error) {
-			// probably need to get user to reauthorize account
-			console.error(error);
+			if (error instanceof GaxiosError) {
+				// tell user to reauthorize account
+				// console.log('error', error.response?.data?.error);
+				if (error.response?.data?.error === 'invalid_grant') {
+					deauthorizedGoogleAccounts.push(googleAccount.email);
+					const resp = await supabaseServerClient(locals.accessToken)
+						.from('google_tokens')
+						.update({ access_token: null, refresh_token: null })
+						.match({ id: googleAccount.id });
+					console.log('Updated tokens', resp);
+				}
+			} else {
+				// ??
+				console.error('Not a GaxiosError');
+				console.error(error);
+			}
 		}
 	}
 
@@ -89,5 +104,6 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 	return {
 		analyticsViews,
 		activeViews,
+		deauthorizedGoogleAccounts,
 	};
 };
