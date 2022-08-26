@@ -1,15 +1,16 @@
 <script lang="ts">
+	import type { ActiveView } from '../../activeViews';
+
+	export let id: number;
+	export let siteName = 'your site';
+	export let view: ActiveView | undefined;
+
 	const onboardingData = {
-		isBounceRateGoal: false,
-		landingPageCategory: '',
+		isBounceRateGoal: view?.is_bounce_rate_a_goal ?? false,
+		landingPageCategory: view?.landing_page_category,
 	};
 
-	export let id: string;
-
-	export let siteName = 'your site';
-
 	const handleSubmit = async () => {
-		console.log({ onboardingData });
 		const response = await fetch('/api/db/views', {
 			method: 'PUT',
 			credentials: 'include',
@@ -24,7 +25,7 @@
 
 <div class="py-8 md:py-0 px-8 md:px-16">
 	<p class="text-3xl text-accent-500 font-extralight">
-		Tell us about {siteName} so we can customize your recommendations.
+		Tell us about <span class="font-normal">{siteName}</span> so we can customize your recommendations.
 	</p>
 	<form class="mt-8 text-accent-500 space-y-8 text-lg" on:submit|preventDefault={handleSubmit}>
 		<div class="">

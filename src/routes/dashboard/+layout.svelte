@@ -3,7 +3,7 @@
 	import { writable, type Writable } from 'svelte/store';
 	import { fade, fly, slide } from 'svelte/transition';
 
-	import { clickOutside } from '$lib/utils';
+	import { clickOutside, trimUrl } from '$lib/utils';
 	import type { View } from '$lib/View';
 	import logoDark from 'assets/logo-dark.png';
 	import type { LayoutData } from './$types';
@@ -16,10 +16,6 @@
 	export let data: LayoutData;
 	setContext('activeViews', writable<{ [id: View['id']]: ActiveView }>(data.activeViews));
 	const activeViews = getContext<Writable<{ [id: View['id']]: ActiveView }>>('activeViews');
-
-	function trimUrl(url: string) {
-		return url.replace(/\/$/, '').replace(/http(s)?(:)?(\/\/)?(www\.)?|^www\./, '');
-	}
 </script>
 
 <!-- based on https://tailwindui.com/components/application-ui/page-examples/settings-screens#component-3e81b8353a7c0ffd711ce35c6b949289 -->
@@ -388,7 +384,7 @@
 
 	<!-- Content area -->
 	<div class="md:pl-64">
-		<div class="mx-auto flex max-w-4xl flex-col md:px-8 xl:px-0">
+		<div class="mx-auto flex max-w-4xl flex-col md:px-8 xl:px-0 text-accent-500">
 			<div
 				class="sticky top-0 z-20 flex h-16 flex-shrink-0 border-b border-accent-200/30 bg-primary-500 md:static md:z-auto md:mt-8 md:border-none"
 			>

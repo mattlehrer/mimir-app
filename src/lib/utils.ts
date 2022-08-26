@@ -23,3 +23,7 @@ export const clickOutside: Action = (node, { enabled: initialEnabled, cb }: { en
 		},
 	};
 };
+
+export function trimUrl(url: string) {
+	return url.replace(/\/$/, '').replace(/http(s)?(:)?(\/\/)?(www\.)?|^www\./, '');
+}
