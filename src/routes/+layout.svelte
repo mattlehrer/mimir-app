@@ -17,7 +17,7 @@
 	const session = getContext<Writable<Session>>('session');
 </script>
 
-<Toast background="bg-accent-500" position="b" variant="filled" duration={1000} />
+<Toast background="bg-accent-400" position="br" variant="filled" duration={1000} />
 {#if !$page.url.pathname.startsWith('/dashboard')}
 	<div class="flex min-h-full flex-col">
 		<Nav />
