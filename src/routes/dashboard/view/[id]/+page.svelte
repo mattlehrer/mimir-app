@@ -7,6 +7,7 @@
 	import Onboarding from './Onboarding.svelte';
 	import { trimUrl } from '$lib/utils';
 	import { slide } from 'svelte/transition';
+
 	const activeViews = getContext<Writable<{ [id: View['id']]: ActiveView }>>('activeViews');
 
 	$: paramId = Number($page.params.id);
@@ -17,8 +18,8 @@
 </script>
 
 {#key paramId}
-	<div class="flex flex-col">
-		<div class="flex justify-end mr-8">
+	<div class="flex flex-col px-4 md:px-0">
+		<div class="mr-4 mt-8 flex justify-end md:mt-0">
 			<button on:click={() => (isConfigOpen = !isConfigOpen)}>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -26,7 +27,7 @@
 					viewBox="0 0 24 24"
 					stroke-width="1.5"
 					stroke="currentColor"
-					class="w-10 h-10"
+					class="h-10 w-10"
 				>
 					<path
 						stroke-linecap="round"
@@ -37,7 +38,7 @@
 			</button>
 		</div>
 		{#if isConfigOpen}
-			<div class="mt-8 rounded-xl px-4 py-8 bg-primary-600 shadow-xl" transition:slide>
+			<div class="mt-8 rounded-xl bg-primary-600 px-4 py-8 shadow-xl" transition:slide>
 				<Onboarding id={paramId} {siteName} {view} />
 			</div>
 		{/if}

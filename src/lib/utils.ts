@@ -24,6 +24,7 @@ export const clickOutside: Action = (node, { enabled: initialEnabled, cb }: { en
 	};
 };
 
-export function trimUrl(url: string) {
+export function trimUrl(url: string | null | undefined): string {
+	if (!url) return '';
 	return url.replace(/\/$/, '').replace(/http(s)?(:)?(\/\/)?(www\.)?|^www\./, '');
 }

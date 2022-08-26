@@ -6,4 +6,5 @@ import type { View } from '$lib/View';
 
 export interface ActiveView extends Partial<View> {
 	active: boolean;
+	view_id: string;
 }

@@ -23,11 +23,11 @@
 	};
 </script>
 
-<div class="py-8 md:py-0 px-8 md:px-16">
-	<p class="text-3xl text-accent-500 font-extralight">
+<div class="py-8 px-4 md:py-0 md:px-16">
+	<p class="text-3xl font-extralight text-accent-500">
 		Tell us about <span class="font-normal">{siteName}</span> so we can customize your recommendations.
 	</p>
-	<form class="mt-8 text-accent-500 space-y-8 text-lg" on:submit|preventDefault={handleSubmit}>
+	<form class="mt-8 space-y-8 text-lg text-accent-500" on:submit|preventDefault={handleSubmit}>
 		<div class="">
 			<label for="bounce-rate"
 				><input
@@ -88,7 +88,7 @@
 		<div>
 			<button
 				type="submit"
-				class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-accent-800 bg-accent-100 hover:bg-accent-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500"
+				class="inline-flex items-center rounded-md border border-transparent bg-accent-100 px-4 py-2 text-sm font-medium text-accent-800 hover:bg-accent-200 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2"
 				>Save</button
 			>
 		</div>

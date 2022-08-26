@@ -5,6 +5,7 @@ import type { LayoutServerLoad } from './$types';
 
 import { createOauth2Client } from '$lib/google';
 import type { View } from '$lib/View';
+import type { ActiveView } from './activeViews';
 
 export const load: LayoutServerLoad = async ({ locals }) => {
 	if (!locals.user || !locals.accessToken) throw redirect(303, '/signin');
@@ -15,7 +16,7 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 	// .eq('user_id', locals.user?.id); // unnecessary with RLS
 
 	const googleAccounts = tokens.data;
-	const activeViews: { [id: View['id']]: Partial<View> } = {};
+	const activeViews: { [id: string]: ActiveView } = {};
 	const analyticsViews: {
 		[id: string]: analytics_v3.Schema$Profile & {
 			account: {
