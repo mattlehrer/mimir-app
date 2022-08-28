@@ -8,6 +8,9 @@ declare namespace App {
 	}
 	interface Locals extends UserSession {
 		error: import('@supabase/supabase-js').ApiError;
+		deauthorizedGoogleAccounts: string[];
+		activeViews: import('$lib/types').ActiveViews;
+		analyticsViews: import('$lib/types').AnalyticsViews;
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-empty-interface

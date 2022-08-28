@@ -5,7 +5,7 @@ import { GaxiosError } from 'gaxios';
 import type { LayoutServerLoad } from './$types';
 
 import { createOauth2Client } from '$lib/google';
-import type { View, ActiveView } from '$lib/types';
+import type { View, AnalyticsViews, ActiveViews } from '$lib/types';
 
 export const load: LayoutServerLoad = async ({ locals }) => {
 	if (!locals.user || !locals.accessToken) throw redirect(303, '/signin');
@@ -17,20 +17,13 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 
 	const googleAccounts = tokens.data;
 	const deauthorizedGoogleAccounts: string[] = [];
-	const activeViews: { [id: string]: ActiveView } = {};
-	const analyticsViews: {
-		[id: string]: analytics_v3.Schema$Profile & {
-			account: {
-				id: analytics_v3.Schema$Account['id'];
-				name: analytics_v3.Schema$Account['name'];
-				email: string;
-			};
-		};
-	} = {};
+	const activeViews: ActiveViews = {};
+	const analyticsViews: AnalyticsViews = {};
 	if (!googleAccounts?.length) {
 		return { analyticsViews, activeViews };
 	}
 	for (const googleAccount of googleAccounts) {
+		console.log('checking all google accounts');
 		try {
 			if (!googleAccount.refresh_token) {
 				deauthorizedGoogleAccounts.push(googleAccount.email);

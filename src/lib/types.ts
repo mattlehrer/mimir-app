@@ -1,3 +1,5 @@
+import type { analytics_v3 } from 'googleapis';
+
 export interface View {
 	id: number;
 	view_id: string;
@@ -14,4 +16,14 @@ export interface ActiveView extends Partial<View> {
 
 export interface ActiveViews {
 	[id: string]: ActiveView;
+}
+
+export interface AnalyticsViews {
+	[id: string]: analytics_v3.Schema$Profile & {
+		account: {
+			id: analytics_v3.Schema$Account['id'];
+			name: analytics_v3.Schema$Account['name'];
+			email: string;
+		};
+	};
 }

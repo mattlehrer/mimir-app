@@ -16,8 +16,11 @@ An automated to do list for your digital marketing from your web analytics.
 - [x] Add chosen views to sidebar / nav
 - [ ] Make a list of metrics and dimensions to include
   - [x] just starting with bounce rate
-- [ ] Create report generator page
 - [x] Create report view
+- [ ] Add google_tokens id to views table when adding all views
+- [ ] Add google_tokens to event.locals in /dashboard/+layout.server.ts
+- [ ] Use those tokens when creating an Oauth client to get the GA data
+- [ ] Create report generator page
 - [ ] Create view pages - what reports are active for each view; if any reports are active, what are the results
   - [ ] add onboarding toggles for landing page style, etc.
 - [ ] Integrate report views with CMS for copy that does not need full redeploy
