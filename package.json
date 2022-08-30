@@ -22,6 +22,7 @@
 		"@typescript-eslint/eslint-plugin": "^5.35.1",
 		"@typescript-eslint/parser": "^5.35.1",
 		"autoprefixer": "^10.4.8",
+		"broadcast-channel": "^4.14.0",
 		"eslint": "^8.23.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-svelte3": "^4.0.0",
@@ -43,6 +44,8 @@
 		"@supabase/auth-helpers-svelte": "^0.4.5",
 		"@supabase/auth-helpers-sveltekit": "^0.6.10",
 		"@supabase/supabase-js": "^1.35.6",
+		"@sveltestack/svelte-query": "^1.6.0",
+		"axios": "^0.27.2",
 		"googleapis": "^107.0.0",
 		"highlight.js": "^11.6.0",
 		"jwt-decode": "^3.1.2"

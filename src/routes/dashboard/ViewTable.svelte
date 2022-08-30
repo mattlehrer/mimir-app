@@ -1,26 +1,28 @@
 <script lang="ts">
-	import type { analytics_v3 } from 'googleapis';
-	import { getContext } from 'svelte';
-	import type { Writable } from 'svelte/store';
-	import type { ActiveViews } from '$lib/types';
+	import { useQuery } from '@sveltestack/svelte-query';
+	import type { ActiveViews, AnalyticsViews } from '$lib/types';
 
-	export let analyticsViews: Array<
-		analytics_v3.Schema$Profile & { account: { id: string; name: string; email: string } }
-	> = [];
+	const queryResult = useQuery<{ activeViews: ActiveViews; analyticsViews: AnalyticsViews }, Error>('dashboard', () =>
+		fetch('http://localhost:5173/api/dashboard').then((res) => res.json()),
+	);
 
-	const active = getContext<Writable<ActiveViews>>('activeViews');
+	$: active = $queryResult.data?.activeViews ?? {};
+	$: analyticsViews = $queryResult.data?.analyticsViews ?? {};
 
 	async function handleChange(id: string) {
+		// TODO: invalidate svelte-query cache, switch to mutation with invalidation or opimistic update
 		const response = await fetch('/api/db/views', {
 			method: 'POST',
 			credentials: 'include',
-			body: JSON.stringify({ ...$active[id] }),
+			body: JSON.stringify({ ...active[id] }),
 		});
 		if (!response.ok) {
 			console.error(response);
 			return;
 		}
 	}
+
+	$: console.log({ analyticsViews });
 </script>
 
 <div class="mt-4 mb-16 px-4 sm:px-6 md:mt-0 lg:px-8">
@@ -52,11 +54,7 @@
 						<thead class="bg-surface-50">
 							<tr>
 								<th scope="col" class="relative w-12 px-6 sm:w-16 sm:px-8">
-									<!-- <input
-										type="checkbox"
-										bind:checked={toggleAll}
-										class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-primary-300 text-accent-600 focus:ring-accent-500 sm:left-6"
-									/> -->
+									<!-- toggle all removed for simplicity and avoiding bad UX -->
 								</th>
 								<th scope="col" class=" py-3.5 px-3 text-left text-sm font-bold text-surface-900">
 									<span class="block">Site</span>
@@ -71,47 +69,49 @@
 							</tr>
 						</thead>
 						<tbody class="divide-y divide-surface-200 bg-white">
-							{#each Object.values(analyticsViews) as view}
-								<tr class:bg-accent-100={view.id && $active[view.id].active}>
-									<td class="relative w-12 px-6 sm:w-16 sm:px-8">
-										<!-- Selected row marker, only show when row is selected. -->
-										{#if view.id}
-											{#if $active[view.id]?.active}
-												<div class="absolute inset-y-0 left-0 w-1 bg-accent-600" />
+							{#if analyticsViews}
+								{#each Object.values(analyticsViews) as view}
+									<tr class:bg-accent-100={view.id && active[view.id].active}>
+										<td class="relative w-12 px-6 sm:w-16 sm:px-8">
+											<!-- Selected row marker, only show when row is selected. -->
+											{#if view.id}
+												{#if active[view.id]?.active}
+													<div class="absolute inset-y-0 left-0 w-1 bg-accent-600" />
+												{/if}
+												<label>
+													<span class="sr-only">Enable/disable {view.websiteUrl}'s {view.name}</span>
+													<input
+														type="checkbox"
+														bind:checked={active[view.id].active}
+														on:change={() => view.id && handleChange(view.id)}
+														class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-primary-300 text-accent-600 focus:ring-accent-500 sm:left-6"
+													/>
+												</label>
 											{/if}
-											<label>
-												<span class="sr-only">Enable/disable {view.websiteUrl}'s {view.name}</span>
-												<input
-													type="checkbox"
-													bind:checked={$active[view.id].active}
-													on:change={() => view.id && handleChange(view.id)}
-													class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-primary-300 text-accent-600 focus:ring-accent-500 sm:left-6"
-												/>
-											</label>
-										{/if}
-									</td>
-									<td class=" whitespace-nowrap px-3 py-4 text-sm font-bold text-surface-900">
-										<div>
-											{view.websiteUrl}
-										</div>
-										<div class="font-normal text-surface-500 md:hidden" title={`View id: ${view.id}`}>
+										</td>
+										<td class=" whitespace-nowrap px-3 py-4 text-sm font-bold text-surface-900">
+											<div>
+												{view.websiteUrl}
+											</div>
+											<div class="font-normal text-surface-500 md:hidden" title={`View id: ${view.id}`}>
+												{view.name}
+											</div>
+										</td>
+										<td
+											class="hidden h-full whitespace-nowrap py-4 px-3 text-sm text-surface-700 md:table-cell"
+											title={`View id: ${view.id}`}
+										>
 											{view.name}
-										</div>
-									</td>
-									<td
-										class="hidden h-full whitespace-nowrap py-4 px-3 text-sm text-surface-700 md:table-cell"
-										title={`View id: ${view.id}`}
-									>
-										{view.name}
-									</td>
-									<td class="whitespace-nowrap py-4 px-3 text-sm">
-										<div class="">
-											<div class="font-medium text-surface-700">{view.account.name}</div>
-											<div class="font-light text-surface-500">{view.account.email}</div>
-										</div>
-									</td>
-								</tr>
-							{/each}
+										</td>
+										<td class="whitespace-nowrap py-4 px-3 text-sm">
+											<div class="">
+												<div class="font-medium text-surface-700">{view.account.name}</div>
+												<div class="font-light text-surface-500">{view.account.email}</div>
+											</div>
+										</td>
+									</tr>
+								{/each}
+							{/if}
 						</tbody>
 					</table>
 				</div>

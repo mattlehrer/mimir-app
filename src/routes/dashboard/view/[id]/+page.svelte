@@ -7,6 +7,7 @@
 	import { trimUrl } from '$lib/utils';
 	import { slide } from 'svelte/transition';
 
+	// TODO: reuse svelte-query
 	const activeViews = getContext<Writable<ActiveViews>>('activeViews');
 
 	$: paramId = Number($page.params.id);

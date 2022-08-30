@@ -1,20 +1,28 @@
 <script lang="ts">
-	import { getContext, setContext } from 'svelte';
-	import { writable, type Writable } from 'svelte/store';
+	import { useQuery } from '@sveltestack/svelte-query';
 	import { fade, fly, slide } from 'svelte/transition';
+	import { page } from '$app/stores';
 
 	import { clickOutside, trimUrl } from '$lib/utils';
 	import logoDark from 'assets/logo-dark.png';
-	import { page } from '$app/stores';
-	import type { ActiveViews } from '$lib/types';
+	import type { ActiveViews, AnalyticsViews } from '$lib/types';
+	import { setContext } from 'svelte';
+	import { readable } from 'svelte/store';
 
 	let isMobileMenuOpen = false;
-	setContext('activeViews', writable<ActiveViews>($page.data.activeViews));
-	const activeViews = getContext<Writable<ActiveViews>>('activeViews');
 
-	if ($page.data.deauthorizedGoogleAccounts) {
-		console.log('deauthorizedGoogleAccounts', $page.data.deauthorizedGoogleAccounts);
-	}
+	// Queries
+	const queryResult = useQuery<
+		{ activeViews: ActiveViews; analyticsViews: AnalyticsViews; deauthorizedGoogleAccounts: string[] },
+		Error
+	>('dashboard', () => fetch('http://localhost:5173/api/dashboard').then((res) => res.json()));
+
+	$: console.log($queryResult);
+
+	// TODO: add these to localStorage for initial data
+	setContext('activeViews', readable($queryResult.data?.activeViews));
+	setContext('analyticsViews', readable($queryResult.data?.analyticsViews));
+	setContext('deauthorizedGoogleAccounts', readable($queryResult.data?.deauthorizedGoogleAccounts));
 </script>
 
 <!-- based on https://tailwindui.com/components/application-ui/page-examples/settings-screens#component-3e81b8353a7c0ffd711ce35c6b949289 -->
@@ -122,26 +130,28 @@
 								</div>
 								<div class="space-y-1 pl-0.5" id="sub-menu-1">
 									<!-- Current: "bg-gray-100 text-gray-900", Default: "bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900" -->
-									{#each Object.values($activeViews).filter((v) => v.active) as view (view)}
-										<a
-											href={`/dashboard/view/${view.id}`}
-											class={`group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium  ${
-												$page.url.pathname.endsWith(`/view/${view.id}`)
-													? 'bg-accent-200 text-gray-900'
-													: 'bg-surface-100 text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-											}`}
-											transition:slide|local
-										>
-											<div class="">
-												<div class="font-medium text-surface-800">
-													{trimUrl($page.data.analyticsViews[view.view_id].websiteUrl)}
+									{#if $queryResult.data?.activeViews && typeof $queryResult.data?.activeViews === 'object'}
+										{#each Object.values($queryResult.data?.activeViews).filter((v) => v.active) as view (view)}
+											<a
+												href={`/dashboard/view/${view.id}`}
+												class={`group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium  ${
+													$page.url.pathname.endsWith(`/view/${view.id}`)
+														? 'bg-accent-200 text-gray-900'
+														: 'bg-surface-100 text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+												}`}
+												transition:slide|local
+											>
+												<div class="">
+													<div class="font-medium text-surface-800">
+														{trimUrl($queryResult.data?.analyticsViews[view.view_id].websiteUrl)}
+													</div>
+													<div class="font-light text-surface-600">
+														{$queryResult.data?.analyticsViews[view.view_id].name}
+													</div>
 												</div>
-												<div class="font-light text-surface-600">
-													{$page.data.analyticsViews[view.view_id].name}
-												</div>
-											</div>
-										</a>
-									{/each}
+											</a>
+										{/each}
+									{/if}
 								</div>
 							</div>
 						</nav>
@@ -285,11 +295,11 @@
 							</svg>
 							<span class="flex-1"> GA Views / Sites </span>
 						</div>
-						{#if $activeViews && typeof $activeViews === 'object'}
+						{#if $queryResult.data?.activeViews && typeof $queryResult.data?.activeViews === 'object'}
 							<div class="space-y-1 pl-0.5" id="sub-menu-1">
-								{#each Object.values($activeViews).filter((v) => v.active) as view (view)}
+								{#each Object.values($queryResult.data?.activeViews).filter((v) => v.active) as view (view)}
 									<!-- Current: "bg-gray-100 text-gray-900", Default: "bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900" -->
-									{#if view?.view_id && $page.data.analyticsViews[view.view_id]}
+									{#if view?.view_id && $queryResult.data?.analyticsViews[view.view_id]}
 										<a
 											href={`/dashboard/view/${view.id}`}
 											class={`group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium  ${
@@ -301,10 +311,10 @@
 										>
 											<div class="">
 												<div class="font-medium text-surface-800">
-													{trimUrl($page.data.analyticsViews[view.view_id].websiteUrl)}
+													{trimUrl($queryResult.data?.analyticsViews[view.view_id].websiteUrl)}
 												</div>
 												<div class="font-light text-surface-600">
-													{$page.data.analyticsViews[view.view_id].name}
+													{$queryResult.data?.analyticsViews[view.view_id].name}
 												</div>
 											</div>
 										</a>
