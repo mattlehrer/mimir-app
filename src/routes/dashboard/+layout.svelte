@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { useQuery } from '@sveltestack/svelte-query';
+	import axios, { AxiosError } from 'axios';
 	import { fade, fly, slide } from 'svelte/transition';
 	import { page } from '$app/stores';
 
@@ -8,16 +9,35 @@
 	import type { ActiveViews, AnalyticsViews } from '$lib/types';
 	import { setContext } from 'svelte';
 	import { readable } from 'svelte/store';
+	import { browser } from '$app/environment';
+	import { goto } from '$app/navigation';
 
 	let isMobileMenuOpen = false;
 
 	// Queries
-	const queryResult = useQuery<
-		{ activeViews: ActiveViews; analyticsViews: AnalyticsViews; deauthorizedGoogleAccounts: string[] },
-		Error
-	>('dashboard', () => fetch('http://localhost:5173/api/dashboard').then((res) => res.json()));
+	const queryResult = browser
+		? useQuery<
+				{ activeViews: ActiveViews; analyticsViews: AnalyticsViews; deauthorizedGoogleAccounts: string[] },
+				Error
+				// >('dashboard', () => fetch('http://localhost:5173/api/dashboard').then((res) => res.json()))
+		  >('dashboard', async () => {
+				try {
+					const { data } = await axios.get('http://localhost:5173/api/dashboard');
+					return data;
+				} catch (err: unknown) {
+					if (err instanceof AxiosError && err.response?.status === 401) {
+						goto('/signin');
+					} else {
+						throw err;
+					}
+				}
+		  })
+		: readable({ data: undefined, isError: false, error: undefined });
 
-	$: console.log($queryResult);
+	$: if ($queryResult.isError) {
+		console.error('here', $queryResult.error);
+		console.log($queryResult);
+	}
 
 	// TODO: add these to localStorage for initial data
 	setContext('activeViews', readable($queryResult.data?.activeViews));

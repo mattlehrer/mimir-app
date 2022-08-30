@@ -1,6 +1,6 @@
 import { analytics_v3, google } from 'googleapis';
 import { error } from '@sveltejs/kit';
-import type { PageServerLoad } from './$types';
+import type { PageServerLoad } from '../../../../../.svelte-kit/types/src/routes/dashboard/view/[id]/$types';
 import { createOauth2Client } from '$lib/google';
 
 export const load: PageServerLoad = async ({ params, parent, locals }) => {

@@ -1,12 +1,26 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
 	import { toastStore } from '@brainandbones/skeleton';
 	import ViewTable from './ViewTable.svelte';
 	import { useQuery } from '@sveltestack/svelte-query';
+	import { readable } from 'svelte/store';
+	import axios, { AxiosError } from 'axios';
 
-	const queryResult = useQuery<{ deauthorizedGoogleAccounts: string[] }, Error>('dashboard', () =>
-		fetch('http://localhost:5173/api/dashboard').then((res) => res.json()),
-	);
+	const queryResult = browser
+		? useQuery<{ deauthorizedGoogleAccounts: string[] }, Error>('dashboard', async () => {
+				try {
+					const { data } = await axios.get('http://localhost:5173/api/dashboard');
+					return data;
+				} catch (err: unknown) {
+					if (err instanceof AxiosError && err.response?.status === 401) {
+						goto('/signin');
+					} else {
+						throw err;
+					}
+				}
+		  })
+		: readable({ data: undefined });
 
 	$: deauthorizedGoogleAccounts = $queryResult.data?.deauthorizedGoogleAccounts;
 

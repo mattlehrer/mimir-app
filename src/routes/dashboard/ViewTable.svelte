@@ -1,10 +1,26 @@
 <script lang="ts">
 	import { useQuery } from '@sveltestack/svelte-query';
 	import type { ActiveViews, AnalyticsViews } from '$lib/types';
+	import { slide } from 'svelte/transition';
+	import { browser } from '$app/environment';
+	import { readable } from 'svelte/store';
+	import axios, { AxiosError } from 'axios';
+	import { goto } from '$app/navigation';
 
-	const queryResult = useQuery<{ activeViews: ActiveViews; analyticsViews: AnalyticsViews }, Error>('dashboard', () =>
-		fetch('http://localhost:5173/api/dashboard').then((res) => res.json()),
-	);
+	const queryResult = browser
+		? useQuery<{ activeViews: ActiveViews; analyticsViews: AnalyticsViews }, Error>('dashboard', async () => {
+				try {
+					const { data } = await axios.get('http://localhost:5173/api/dashboard');
+					return data;
+				} catch (err: unknown) {
+					if (err instanceof AxiosError && err.response?.status === 401) {
+						goto('/signin');
+					} else {
+						throw err;
+					}
+				}
+		  })
+		: readable({ data: undefined, isError: false, error: undefined, isLoading: false });
 
 	$: active = $queryResult.data?.activeViews ?? {};
 	$: analyticsViews = $queryResult.data?.analyticsViews ?? {};
@@ -21,8 +37,6 @@
 			return;
 		}
 	}
-
-	$: console.log({ analyticsViews });
 </script>
 
 <div class="mt-4 mb-16 px-4 sm:px-6 md:mt-0 lg:px-8">
@@ -69,9 +83,13 @@
 							</tr>
 						</thead>
 						<tbody class="divide-y divide-surface-200 bg-white">
-							{#if analyticsViews}
+							{#if $queryResult.isLoading}
+								<tr><td /> <td class="h-16 w-full">Loading... </td><td /><td /></tr>
+							{:else if $queryResult.error}
+								<tr> Error </tr>
+							{:else}
 								{#each Object.values(analyticsViews) as view}
-									<tr class:bg-accent-100={view.id && active[view.id].active}>
+									<tr class:bg-accent-100={view.id && active[view.id].active} transition:slide={{ duration: 5000 }}>
 										<td class="relative w-12 px-6 sm:w-16 sm:px-8">
 											<!-- Selected row marker, only show when row is selected. -->
 											{#if view.id}
