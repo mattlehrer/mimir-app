@@ -1,4 +1,4 @@
-import type { View } from '$lib/View';
+import type { View } from '$lib/types';
 import { supabaseServerClient } from '@supabase/auth-helpers-sveltekit';
 import { redirect, error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
