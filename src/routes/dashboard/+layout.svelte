@@ -7,19 +7,16 @@
 	import { clickOutside, trimUrl } from '$lib/utils';
 	import logoDark from 'assets/logo-dark.png';
 	import type { ActiveViews, AnalyticsViews } from '$lib/types';
-	import { setContext } from 'svelte';
 	import { readable } from 'svelte/store';
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
 
 	let isMobileMenuOpen = false;
 
-	// Queries
 	const queryResult = browser
 		? useQuery<
 				{ activeViews: ActiveViews; analyticsViews: AnalyticsViews; deauthorizedGoogleAccounts: string[] },
 				Error
-				// >('dashboard', () => fetch('http://localhost:5173/api/dashboard').then((res) => res.json()))
 		  >('dashboard', async () => {
 				try {
 					const { data } = await axios.get('http://localhost:5173/api/dashboard');
@@ -38,11 +35,6 @@
 		console.error('here', $queryResult.error);
 		console.log($queryResult);
 	}
-
-	// TODO: add these to localStorage for initial data
-	setContext('activeViews', readable($queryResult.data?.activeViews));
-	setContext('analyticsViews', readable($queryResult.data?.analyticsViews));
-	setContext('deauthorizedGoogleAccounts', readable($queryResult.data?.deauthorizedGoogleAccounts));
 </script>
 
 <!-- based on https://tailwindui.com/components/application-ui/page-examples/settings-screens#component-3e81b8353a7c0ffd711ce35c6b949289 -->

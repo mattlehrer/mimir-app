@@ -1,25 +1,46 @@
 <script lang="ts">
-	import { getContext } from 'svelte';
+	import { useQuery } from '@sveltestack/svelte-query';
+	import axios, { AxiosError } from 'axios';
 	import { page } from '$app/stores';
-	import type { ActiveView, ActiveViews } from '$lib/types';
-	import type { Writable } from 'svelte/store';
-	import Onboarding from './Onboarding.svelte';
-	import { trimUrl } from '$lib/utils';
+	import { readable } from 'svelte/store';
 	import { slide } from 'svelte/transition';
+	import { browser } from '$app/environment';
+	import { goto } from '$app/navigation';
 
-	// TODO: reuse svelte-query
-	const activeViews = getContext<Writable<ActiveViews>>('activeViews');
+	import type { ActiveView, ActiveViews, AnalyticsViews } from '$lib/types';
+	import { trimUrl } from '$lib/utils';
+	import Onboarding from './Onboarding.svelte';
+
+	const queryResult = browser
+		? useQuery<
+				{ activeViews: ActiveViews; analyticsViews: AnalyticsViews; deauthorizedGoogleAccounts: string[] },
+				Error
+		  >('dashboard', async () => {
+				try {
+					const { data } = await axios.get('http://localhost:5173/api/dashboard');
+					return data;
+				} catch (err: unknown) {
+					if (err instanceof AxiosError && err.response?.status === 401) {
+						goto('/signin');
+					} else {
+						throw err;
+					}
+				}
+		  })
+		: readable({ data: undefined, isError: false, error: undefined });
 
 	$: paramId = Number($page.params.id);
 	let view: ActiveView | undefined;
-	$: view = Object.values($activeViews).find(({ id }) => id === paramId);
-	$: siteName = view?.view_id && trimUrl($page.data.analyticsViews[view.view_id].websiteUrl);
+	$: view = $queryResult.data?.activeViews
+		? Object.values($queryResult.data.activeViews).find(({ id }) => id === paramId)
+		: undefined;
+	$: siteName = view?.view_id && trimUrl($queryResult.data?.analyticsViews[view.view_id].websiteUrl);
 	$: isConfigOpen = !view?.landing_page_category;
 </script>
 
 {#key paramId}
 	<div class="flex flex-col px-4 md:px-0">
-		<div class="mr-4 mt-8 flex justify-end md:mt-0">
+		<div class="z-10 mr-4 mt-8 flex justify-end md:mt-0">
 			<button on:click={() => (isConfigOpen = !isConfigOpen)}>
 				{#if !isConfigOpen}
 					<svg
@@ -43,7 +64,7 @@
 						viewBox="0 0 24 24"
 						stroke-width="1.5"
 						stroke="currentColor"
-						class="h-10 w-10"
+						class="h-10 w-10 text-accent-700"
 					>
 						<path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m-15 0l15 15" />
 					</svg>
@@ -51,7 +72,7 @@
 			</button>
 		</div>
 		{#if isConfigOpen}
-			<div class="mt-8 rounded-xl bg-primary-600 px-4 py-8 shadow-xl" transition:slide>
+			<div class="-mt-16 rounded-xl bg-primary-600 px-4 py-8 shadow-xl" transition:slide>
 				<Onboarding id={paramId} {siteName} {view} />
 			</div>
 		{/if}
