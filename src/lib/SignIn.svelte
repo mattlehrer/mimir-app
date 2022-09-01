@@ -1,17 +1,14 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
-
 	import type { Session } from '@supabase/auth-helpers-svelte';
 	import type { Writable } from 'svelte/store';
-
-	const session = getContext<Writable<Session>>('session');
-
 	import { toastStore } from '@brainandbones/skeleton';
+	import { goto, invalidateAll } from '$app/navigation';
 
-	import { goto, invalidate } from '$app/navigation';
 	import logoDark from 'assets/logo-dark.png';
 	import { supabaseClient } from './supabase';
 
+	const session = getContext<Writable<Session>>('session');
 	let email: string;
 	let password: string;
 
@@ -54,7 +51,7 @@
 					addToast({ message: `Something went wrong! ${JSON.stringify(error, null, 2)}` });
 				} else {
 					addToast({ message: 'Welcome back. Loading the dashboard...' });
-					await invalidate();
+					await invalidateAll();
 					await goto('/dashboard');
 				}
 			}
