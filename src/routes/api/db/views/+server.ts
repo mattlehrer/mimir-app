@@ -18,7 +18,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 
 export const PUT: RequestHandler = async ({ locals, request }) => {
 	if (!locals.user || !locals.accessToken) {
-		throw error(303, 'Not logged in');
+		throw redirect(303, 'Not logged in');
 	}
 
 	const view = await request.json();
