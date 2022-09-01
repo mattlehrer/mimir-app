@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { useQuery } from '@sveltestack/svelte-query';
-	import type { ActiveViews, AnalyticsViews } from '$lib/types';
+	import type { DashboardQueryResponse } from '$lib/types';
 	import { slide } from 'svelte/transition';
 	import { browser } from '$app/environment';
 	import { readable } from 'svelte/store';
@@ -8,7 +8,7 @@
 	import { goto } from '$app/navigation';
 
 	const queryResult = browser
-		? useQuery<{ activeViews: ActiveViews; analyticsViews: AnalyticsViews }, Error>('dashboard', async () => {
+		? useQuery<DashboardQueryResponse, Error>('dashboard', async () => {
 				try {
 					const { data } = await axios.get('http://localhost:5173/api/dashboard');
 					return data;

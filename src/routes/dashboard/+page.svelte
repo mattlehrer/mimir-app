@@ -6,9 +6,10 @@
 	import { useQuery } from '@sveltestack/svelte-query';
 	import { readable } from 'svelte/store';
 	import axios, { AxiosError } from 'axios';
+	import type { DashboardQueryResponse } from '$lib/types';
 
 	const queryResult = browser
-		? useQuery<{ deauthorizedGoogleAccounts: string[] }, Error>('dashboard', async () => {
+		? useQuery<DashboardQueryResponse, Error>('dashboard', async () => {
 				try {
 					const { data } = await axios.get('http://localhost:5173/api/dashboard');
 					return data;

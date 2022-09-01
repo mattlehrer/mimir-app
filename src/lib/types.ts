@@ -27,3 +27,9 @@ export interface AnalyticsViews {
 		};
 	};
 }
+
+export interface DashboardQueryResponse {
+	activeViews: ActiveViews;
+	analyticsViews: AnalyticsViews;
+	deauthorizedGoogleAccounts: string[];
+}

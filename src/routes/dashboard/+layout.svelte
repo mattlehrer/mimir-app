@@ -6,7 +6,7 @@
 
 	import { clickOutside, trimUrl } from '$lib/utils';
 	import logoDark from 'assets/logo-dark.png';
-	import type { ActiveViews, AnalyticsViews } from '$lib/types';
+	import type { DashboardQueryResponse } from '$lib/types';
 	import { readable } from 'svelte/store';
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
@@ -14,10 +14,7 @@
 	let isMobileMenuOpen = false;
 
 	const queryResult = browser
-		? useQuery<
-				{ activeViews: ActiveViews; analyticsViews: AnalyticsViews; deauthorizedGoogleAccounts: string[] },
-				Error
-		  >('dashboard', async () => {
+		? useQuery<DashboardQueryResponse, Error>('dashboard', async () => {
 				try {
 					const { data } = await axios.get('http://localhost:5173/api/dashboard');
 					return data;
