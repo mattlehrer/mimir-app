@@ -33,6 +33,25 @@
 		: undefined;
 	$: siteName = view?.view_id && trimUrl($dashQueryResult.data?.analyticsViews[view.view_id].websiteUrl);
 	$: isConfigOpen = !view?.landing_page_category;
+
+	const reportQueryResult = browser
+		? useQuery<any, Error>(['reports', paramId], async () => {
+				try {
+					const { data } = await axios.post('/api/db/reports', {
+						a: 1,
+					});
+					return data;
+				} catch (err: unknown) {
+					if (err instanceof AxiosError && err.response?.status === 401) {
+						goto('/signin');
+					} else {
+						throw err;
+					}
+				}
+		  })
+		: readable({ isLoading: false, data: undefined, isError: false, error: undefined });
+
+	$: console.log('report query:', $reportQueryResult);
 </script>
 
 {#key paramId}
