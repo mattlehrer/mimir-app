@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ActiveView } from '../../activeViews';
+	import type { ActiveView } from '$lib/types';
 
 	export let id: number;
 	export let siteName = 'your site';
