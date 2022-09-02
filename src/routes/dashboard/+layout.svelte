@@ -2,21 +2,21 @@
 	import { useQuery } from '@sveltestack/svelte-query';
 	import axios, { AxiosError } from 'axios';
 	import { fade, fly, slide } from 'svelte/transition';
+	import { readable } from 'svelte/store';
+	import { browser } from '$app/environment';
+	import { afterNavigate, goto } from '$app/navigation';
 	import { page } from '$app/stores';
 
 	import { clickOutside, trimUrl } from '$lib/utils';
 	import logoDark from 'assets/logo-dark.png';
 	import type { DashboardQueryResponse } from '$lib/types';
-	import { readable } from 'svelte/store';
-	import { browser } from '$app/environment';
-	import { goto } from '$app/navigation';
 
 	let isMobileMenuOpen = false;
 
 	const queryResult = browser
 		? useQuery<DashboardQueryResponse, Error>('dashboard', async () => {
 				try {
-					const { data } = await axios.get('http://localhost:5173/api/dashboard');
+					const { data } = await axios.get('/api/dashboard');
 					return data;
 				} catch (err: unknown) {
 					if (err instanceof AxiosError && err.response?.status === 401) {
@@ -32,6 +32,10 @@
 		console.error('here', $queryResult.error);
 		console.log($queryResult);
 	}
+
+	afterNavigate(() => {
+		isMobileMenuOpen = false;
+	});
 </script>
 
 <!-- based on https://tailwindui.com/components/application-ui/page-examples/settings-screens#component-3e81b8353a7c0ffd711ce35c6b949289 -->
