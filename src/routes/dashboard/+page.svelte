@@ -11,7 +11,7 @@
 	const queryResult = browser
 		? useQuery<DashboardQueryResponse, Error>('dashboard', async () => {
 				try {
-					const { data } = await axios.get('http://localhost:5173/api/dashboard');
+					const { data } = await axios.get('/api/dashboard');
 					return data;
 				} catch (err: unknown) {
 					if (err instanceof AxiosError && err.response?.status === 401) {

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { useQuery } from '@sveltestack/svelte-query';
 	import type { DashboardQueryResponse } from '$lib/types';
-	import { slide } from 'svelte/transition';
 	import { browser } from '$app/environment';
 	import { readable } from 'svelte/store';
 	import axios, { AxiosError } from 'axios';
@@ -10,7 +9,7 @@
 	const queryResult = browser
 		? useQuery<DashboardQueryResponse, Error>('dashboard', async () => {
 				try {
-					const { data } = await axios.get('http://localhost:5173/api/dashboard');
+					const { data } = await axios.get('/api/dashboard');
 					return data;
 				} catch (err: unknown) {
 					if (err instanceof AxiosError && err.response?.status === 401) {
@@ -89,7 +88,7 @@
 								<tr> Error </tr>
 							{:else}
 								{#each Object.values(analyticsViews) as view}
-									<tr class:bg-accent-100={view.id && active[view.id].active} transition:slide={{ duration: 5000 }}>
+									<tr class:bg-accent-100={view.id && active[view.id].active}>
 										<td class="relative w-12 px-6 sm:w-16 sm:px-8">
 											<!-- Selected row marker, only show when row is selected. -->
 											{#if view.id}

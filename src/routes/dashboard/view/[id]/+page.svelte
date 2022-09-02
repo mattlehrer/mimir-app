@@ -7,17 +7,14 @@
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
 
-	import type { ActiveView, ActiveViews, AnalyticsViews } from '$lib/types';
+	import type { ActiveView, DashboardQueryResponse } from '$lib/types';
 	import { trimUrl } from '$lib/utils';
 	import Onboarding from './Onboarding.svelte';
 
-	const queryResult = browser
-		? useQuery<
-				{ activeViews: ActiveViews; analyticsViews: AnalyticsViews; deauthorizedGoogleAccounts: string[] },
-				Error
-		  >('dashboard', async () => {
+	const dashQueryResult = browser
+		? useQuery<DashboardQueryResponse, Error>('dashboard', async () => {
 				try {
-					const { data } = await axios.get('http://localhost:5173/api/dashboard');
+					const { data } = await axios.get('/api/dashboard');
 					return data;
 				} catch (err: unknown) {
 					if (err instanceof AxiosError && err.response?.status === 401) {
@@ -31,10 +28,10 @@
 
 	$: paramId = Number($page.params.id);
 	let view: ActiveView | undefined;
-	$: view = $queryResult.data?.activeViews
-		? Object.values($queryResult.data.activeViews).find(({ id }) => id === paramId)
+	$: view = $dashQueryResult.data?.activeViews
+		? Object.values($dashQueryResult.data.activeViews).find(({ id }) => id === paramId)
 		: undefined;
-	$: siteName = view?.view_id && trimUrl($queryResult.data?.analyticsViews[view.view_id].websiteUrl);
+	$: siteName = view?.view_id && trimUrl($dashQueryResult.data?.analyticsViews[view.view_id].websiteUrl);
 	$: isConfigOpen = !view?.landing_page_category;
 </script>
 
