@@ -88,7 +88,7 @@
 			</button>
 		</div>
 		{#if isConfigOpen}
-			<div class="-mt-16 rounded-xl bg-primary-600 px-4 py-8 shadow-xl" transition:slide>
+			<div class="-mt-16 rounded-xl bg-primary-600 px-4 py-8 shadow-xl" transition:slide|local>
 				<Onboarding id={paramId} {siteName} {view} />
 			</div>
 		{/if}
