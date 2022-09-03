@@ -1,6 +1,12 @@
 <script lang="ts">
 	import { Toast } from '@brainandbones/skeleton';
-	import { QueryClient, QueryClientProvider } from '@sveltestack/svelte-query';
+	import {
+		QueryClient,
+		QueryClientProvider,
+		persistQueryClient,
+		createWebStoragePersistor,
+		type Persistor,
+	} from '@sveltestack/svelte-query';
 	import { SupaAuthHelper, type Session } from '@supabase/auth-helpers-svelte';
 	import { getContext, setContext } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
@@ -13,12 +19,34 @@
 	import '../theme.css';
 	// force theme.css before app.css
 	import '../app.css';
+	import { browser } from '$app/environment';
 
 	setContext('session', writable<Session>($page.data.session));
 	const session = getContext<Writable<Session>>('session');
 
-	setContext('queryClient', new QueryClient());
-	const queryClient = getContext<QueryClient>('sequeryClientssion');
+	setContext(
+		'queryClient',
+		new QueryClient({
+			defaultOptions: {
+				queries: {
+					cacheTime: 1000 * 60 * 60 * 24, // 24 hours
+				},
+			},
+		}),
+	);
+	const queryClient = getContext<QueryClient>('queryClient');
+	let localStoragePersistor: Persistor;
+	if (browser) {
+		localStoragePersistor = createWebStoragePersistor({
+			storage: window.localStorage,
+		});
+
+		persistQueryClient({
+			queryClient,
+			persistor: localStoragePersistor,
+			maxAge: 1000 * 60 * 60 * 24,
+		});
+	}
 </script>
 
 <Toast background="bg-accent-400" position="br" variant="filled" duration={1000} />
