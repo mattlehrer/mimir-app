@@ -64,6 +64,7 @@ export const GET: RequestHandler = async ({ locals }) => {
 								id: v.accountId,
 								name: v.accountId && analyticsAccounts?.get(v.accountId),
 								email: googleAccount.email,
+								tokensId: googleAccount.id,
 							},
 						};
 				});

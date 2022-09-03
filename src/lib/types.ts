@@ -24,6 +24,7 @@ export interface AnalyticsViews {
 			id: analytics_v3.Schema$Account['id'];
 			name: analytics_v3.Schema$Account['name'];
 			email: string;
+			tokensId: number;
 		};
 	};
 }
