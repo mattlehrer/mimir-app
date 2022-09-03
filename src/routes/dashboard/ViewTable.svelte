@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { useQuery } from '@sveltestack/svelte-query';
+	import { useQuery, useMutation, useQueryClient } from '@sveltestack/svelte-query';
 	import type { DashboardQueryResponse } from '$lib/types';
 	import { browser } from '$app/environment';
 	import { readable } from 'svelte/store';
@@ -24,18 +24,13 @@
 	$: active = $queryResult.data?.activeViews ?? {};
 	$: analyticsViews = $queryResult.data?.analyticsViews ?? {};
 
-	async function handleChange(id: string) {
-		// TODO: invalidate svelte-query cache, switch to mutation with invalidation or opimistic update
-		const response = await fetch('/api/db/views', {
-			method: 'POST',
-			credentials: 'include',
-			body: JSON.stringify({ ...active[id] }),
-		});
-		if (!response.ok) {
-			console.error(response);
-			return;
-		}
-	}
+	const queryClient = useQueryClient();
+	const mutation = useMutation((id: string) => axios.post('/api/db/views', { ...active[id] }), {
+		// TODO: switch to optimistic update
+		onSuccess: () => {
+			queryClient.invalidateQueries('dashboard');
+		},
+	});
 </script>
 
 <div class="mt-4 mb-16 px-4 sm:px-6 md:mt-0 lg:px-8">
@@ -90,9 +85,9 @@
 								{#each Object.values(analyticsViews) as view}
 									<tr class:bg-accent-100={view.id && active[view.id].active}>
 										<td class="relative w-12 px-6 sm:w-16 sm:px-8">
-											<!-- Selected row marker, only show when row is selected. -->
 											{#if view.id}
 												{#if active[view.id]?.active}
+													<!-- Selected row marker, only show when row is selected. -->
 													<div class="absolute inset-y-0 left-0 w-1 bg-accent-600" />
 												{/if}
 												<label>
@@ -100,7 +95,7 @@
 													<input
 														type="checkbox"
 														bind:checked={active[view.id].active}
-														on:change={() => view.id && handleChange(view.id)}
+														on:change={() => view.id && $mutation.mutate(view.id)}
 														class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-primary-300 text-accent-600 focus:ring-accent-500 sm:left-6"
 													/>
 												</label>
