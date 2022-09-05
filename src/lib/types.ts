@@ -7,6 +7,7 @@ export interface View {
 	active: boolean;
 	is_bounce_rate_a_goal: boolean;
 	landing_page_category: string;
+	google_tokens_id: number;
 }
 
 export interface ActiveView extends Partial<View> {
@@ -24,7 +25,7 @@ export interface AnalyticsViews {
 			id: analytics_v3.Schema$Account['id'];
 			name: analytics_v3.Schema$Account['name'];
 			email: string;
-			tokensId: number;
+			google_tokens_id: number;
 		};
 	};
 }

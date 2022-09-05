@@ -64,7 +64,7 @@ export const GET: RequestHandler = async ({ locals }) => {
 								id: v.accountId,
 								name: v.accountId && analyticsAccounts?.get(v.accountId),
 								email: googleAccount.email,
-								tokensId: googleAccount.id,
+								google_tokens_id: googleAccount.id,
 							},
 						};
 				});
@@ -100,6 +100,7 @@ export const GET: RequestHandler = async ({ locals }) => {
 			activeViews[gaViewId] = {
 				view_id: gaViewId,
 				active: false,
+				google_tokens_id: analyticsViews[gaViewId].account.google_tokens_id,
 			};
 		}
 	}
