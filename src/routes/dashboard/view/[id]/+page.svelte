@@ -7,7 +7,7 @@
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
 
-	import type { ActiveView, DashboardQueryResponse } from '$lib/types';
+	import type { ActiveView, DashboardQueryResponse, ReportQueryResponse } from '$lib/types';
 	import { trimUrl } from '$lib/utils';
 	import Onboarding from './Onboarding.svelte';
 
@@ -36,7 +36,7 @@
 
 	$: reportQueryResult =
 		paramId && browser
-			? useQuery<any, Error>(['reports', paramId], async () => {
+			? useQuery<ReportQueryResponse, Error>(['reports', paramId], async () => {
 					try {
 						const reportOn = {
 							viewId: paramId,
@@ -98,4 +98,8 @@
 			</div>
 		{/if}
 	</div>
+
+	<pre class="mt-16 text-sm">
+		{JSON.stringify($reportQueryResult.data, null, 2)}
+	</pre>
 {/key}

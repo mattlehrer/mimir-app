@@ -32,7 +32,7 @@
 
 	/* Code */
 	pre:not(.codeblock pre) {
-		@apply overflow-x-auto whitespace-pre-wrap rounded bg-surface-700 p-4 text-base text-surface-50;
+		@apply overflow-x-auto whitespace-pre-wrap rounded bg-primary-700 p-4 text-accent-200;
 	}
 	code:not(.codeblock code) {
 		@apply rounded bg-surface-500/30 py-1 px-2 text-xs text-black;

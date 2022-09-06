@@ -35,3 +35,8 @@ export interface DashboardQueryResponse {
 	analyticsViews: AnalyticsViews;
 	deauthorizedGoogleAccounts: string[];
 }
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface ReportQueryResponse extends JSON {
+	// fill this in when we know what the response looks like
+}
