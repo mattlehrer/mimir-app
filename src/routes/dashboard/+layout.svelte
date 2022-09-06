@@ -29,8 +29,7 @@
 		: readable({ data: undefined, isError: false, error: undefined });
 
 	$: if ($queryResult.isError) {
-		console.error('here', $queryResult.error);
-		console.log($queryResult);
+		console.error('Dashboard query error: ', $queryResult.error);
 	}
 
 	afterNavigate(() => {
