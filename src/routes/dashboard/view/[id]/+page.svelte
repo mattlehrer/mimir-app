@@ -98,8 +98,11 @@
 			</div>
 		{/if}
 	</div>
-
-	<pre class="mt-16 text-sm">
+	{#if $reportQueryResult.data}
+		<pre class="mt-16 text-sm">
 		{JSON.stringify($reportQueryResult.data, null, 2)}
 	</pre>
+	{:else}
+		<p class="mt-16">Loading...</p>
+	{/if}
 {/key}
